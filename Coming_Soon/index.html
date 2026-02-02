@@ -97,5 +97,30 @@
 
       <p class="copyright">&copy; 2026 Tafheem · All rights reserved</p>
     </footer>
+    <script>
+document.getElementById("waitForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message");
+
+    message.innerText = "Saving...";
+
+    const res = await fetch("save.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+    });
+
+    const data = await res.json();
+
+    message.innerText = data.message;
+
+    // clear form
+    this.reset();
+});
+</script>
+
   </body>
 </html>
