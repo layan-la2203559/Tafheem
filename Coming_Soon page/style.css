@@ -259,7 +259,7 @@ footer {
   font-size: 0.8rem;
 }
 .instagram {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   background-color: rgb(231, 205, 106, 50%);
   width: fit-content;
@@ -267,6 +267,11 @@ footer {
   gap: 0.3rem;
   border-radius: 999px;
   margin-left: 0.5rem;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+
 }
 footer .copyright {
   color: rgb(112 51 76 / 50%);
