@@ -8,17 +8,7 @@
 * {
   box-sizing: border-box;
 }
-/* html,
-body {
-  height: 100%;
-  margin: 0;
-  max-height: 100%;
-}
 
-.page {
-  min-height: 100vh;
-  overflow: hidden;
-} */
 html {
   height: 100%;
   margin: 0;
@@ -31,20 +21,21 @@ body {
   font-family: Inter;
   background-color: #fefcf7;
   height: 100vh;
+  min-height: 100vh;
   width: 100%;
   margin: 0;
+  padding: 0;
   gap: 1.9rem;
 }
 h1,
 h2 {
   font-family: Playfair Display;
-  font-weight: 600;
 }
 
 /* Header and logo */
 header {
   text-align: center;
-  padding: 0 5%;
+  padding: 0 4rem;
   background-color: #70334c;
   color: white;
   display: flex;
@@ -54,7 +45,7 @@ header {
 }
 header h1 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 1000;
 }
 header div {
   font-size: 0.7rem;
@@ -68,9 +59,9 @@ header div {
 .yellow {
   color: #dbbc47;
   font-family: Amiri;
-  margin-left: 0.8rem;
   margin-right: 0.5rem;
   margin-bottom: 0;
+  margin-left: 0.6rem;
 }
 .white {
   color: white;
@@ -81,13 +72,11 @@ main {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  gap: 0;
   align-items: flex-start;
-  height: fit-content;
-  /* margin-top: 0.5rem;
-  margin-bottom: 0.8rem; */
+  /* height: fit-content; */
   flex: 1;
   margin: 0 1rem 0.8rem 1rem;
+  gap: 2.5rem;
 }
 .main_gradient {
   display: flex;
@@ -142,14 +131,8 @@ p {
   display: flex;
 }
 .intro {
-  width: 50%;
-  min-width: 25rem;
+  width: 39rem;
   padding: 0rem;
-}
-.intro h1 {
-  margin: 0 0 0 0;
-  font-size: 2.9rem;
-  max-width: 29rem;
 }
 
 .intro .gradient-line {
@@ -163,9 +146,12 @@ p {
   font-weight: 1600;
   line-height: 1.05;
   margin-bottom: 0.5rem;
+  margin: 0 0 0 0;
+  font-size: 3.2rem;
+  max-width: 29rem;
 }
 .intro_top p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: rgb(112 51 76 / 60%);
   margin: 0;
   max-width: 30rem;
@@ -206,18 +192,20 @@ p {
   width: 40%;
   background-color: #faf5e5;
   border: 2px solid #e7cd6a;
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
+  padding-left: 3.2rem;
   border-radius: 20px;
   min-width: 15rem;
   font-family: Amiri;
-  /* max-height: 80%; */
+  height: 31.4rem;
   min-height: fit-content;
-  max-width: 500px;
+  max-width: 550px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 0.9rem;
+  margin-left: 10px;
   box-shadow: 5px 5px 9px rgb(146, 146, 146);
+  margin-top: 4px;
 }
 .signup .gradient-line {
   background: linear-gradient(to right, #dbbc47 0%, #c8d1d5 86%, #c8d1d5);
@@ -227,8 +215,8 @@ p {
 }
 .signup h2 {
   margin: 0;
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 2.45rem;
+  font-weight: 600;
 }
 form label {
   font-family: Inter;
@@ -285,22 +273,23 @@ input::placeholder {
 /* footer */
 footer {
   background-color: #faf5e5;
-  padding: 0.2rem 3rem 0.15rem 3rem;
+  padding: 0.2rem 4.5rem 0.15rem 3.7rem;
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
   align-items: center;
   height: 2.8rem;
+  margin-bottom: 0;
 }
 .instagram {
   display: inline-flex;
   align-items: center;
   background-color: rgb(231, 205, 106, 50%);
   width: fit-content;
-  padding: 0 1rem;
+  padding: 0 0.8rem;
   gap: 0.3rem;
   border-radius: 999px;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
   gap: 6px;
   text-decoration: none;
   color: inherit;
@@ -340,7 +329,7 @@ footer svg {
     justify-content: center;
     margin-bottom: 1rem;
     padding: 0 1rem;
-    gap: 2rem;
+    gap: 0rem;
     margin-top: 0;
     /* align-items: center; */
   }
@@ -374,13 +363,7 @@ footer svg {
     font-size: 1rem;
   }
 
-  /* .intro_top h1{
-    text-align: center;
-  } */
   .signup {
-    /* max-width: 90%;
-    min-width: fit-content; */
-
     min-width: 100%;
     margin: 0 auto 0 auto;
   }
