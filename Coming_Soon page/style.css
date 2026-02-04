@@ -343,14 +343,20 @@ footer svg {
     /* text-align: center;  */
   }
   .intro_top {
-    margin: 1rem 0rem;
+    margin: 1rem 0rem 0.2rem 0rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
   }
   .intro_top .gradient-line {
-    margin: 0.25rem auto 1rem auto;
+    margin: 0.25rem 0 1rem 0;
   }
+  .main_gradient {
+    margin: unset;
+    width: 70%;
+    margin: 0.5rem auto 0 auto;
+  }
+
   .intro_top h2 {
     font-size: 1.6rem;
   }
