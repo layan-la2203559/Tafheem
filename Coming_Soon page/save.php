@@ -1,7 +1,14 @@
 <?php
 header("Content-Type: application/json");
 
-// Hostinger credentials
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+require 'PHPMailer/src/Exception.php';
+
+// Hostinger credentials (DB)
 $host = "localhost";
 $user = "u392551836_waiting_user";
 $pass = "dQ!0KZq1";
@@ -23,23 +30,26 @@ $email = trim($data["email"]);
 $name  = $conn->real_escape_string($data["name"]);
 $email = $conn->real_escape_string($data["email"]);
 
-// insert or update if exists
+// insert or update if exists (save to DB)
 $sql = "
 INSERT INTO waiting_list (email, name)
 VALUES ('$email', '$name')
 ON DUPLICATE KEY UPDATE name='$name'
 ";
 
-if ($conn->query($sql)) {
+if (!$conn->query($sql)) {
+    echo json_encode(["message" => "Database save failed"]);
+    exit();
+}
 
     /* ======================
-       SEND EMAIL
+       SEND EMAIL (SMTP)
     ====================== */
 
     $firstName = explode(" ", $name)[0];
 
-    $to = $email;
-    $subject = "Welcome to the Tafheem Waitlist, $firstName";
+    // $to = $email;
+    // $subject = "Welcome to the Tafheem Waitlist, $firstName";
 
     $message = "
 Assalamu alaikum wa rahmatullahi wa barakatuh, $firstName.
@@ -61,17 +71,28 @@ Jazakallahu khairan,
 The Tafheem Team
 ";
 
-    $headers = "From: Tafheem <hello@tafheem.io>\r\n";
-    $headers .= "Reply-To: hello@tafheem.io\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$mail = new PHPMailer(true);
+try {
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.hostinger.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'hello@tafheem.io';
+    $mail->Password   = '26PHUe!kYAuFp3e';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port       = 587;
 
-    mail($to, $subject, $message, $headers);
+    $mail->setFrom('hello@tafheem.io', 'Tafheem');
+    $mail->addAddress($email, $firstName);
 
-    echo json_encode(["message" => "You're on the waitlist! Check your email "]);
+    $mail->Subject = "Welcome to the Tafheem Waitlist, $firstName";
+    $mail->Body    = $message;
 
-} else {
-    echo json_encode(["message" => "Something went wrong"]);
+    $mail->send();
+
+} catch (Exception $e) {
+    // optional: log errors
 }
+echo json_encode(["message" => "You're on the waitlist! Check your email 📩"]);
 
 $conn->close();
 ?>
