@@ -60,6 +60,7 @@ header div {
 }
 .logo {
   margin: 0;
+  /* display: flex; */
   /* background-color: rgb(219 188 71 / 10%);
   margin: auto;
   padding: 0rem 1.3rem;
@@ -72,15 +73,11 @@ header div {
 .yellow {
   color: #dbbc47;
   font-family: Amiri;
+  margin-left: 0.8rem;
+  margin-right: 0.5rem;
 }
 .white {
   color: white;
-}
-header .gradient-line {
-  background: linear-gradient(to right, #fefcfe 0%, #dbbc47 50%, #fefcfe);
-  width: 25%;
-  height: 0.1rem;
-  margin: 0.7rem auto 0 auto;
 }
 /* Main */
 main {
@@ -98,18 +95,18 @@ main {
 .main_gradient {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 50%;
+  justify-content: flex-start;
+  width: 30%;
   max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  gap: 12px;
+  /* margin: 0 auto; */
+  margin-left: 3rem;
+  gap: 7px;
 }
 .main_gradient::before,
 .main_gradient::after {
   content: "";
   display: block;
-  height: 0.2rem;
+  height: 0.1rem;
   width: 100%;
 }
 
@@ -177,7 +174,7 @@ p {
 }
 .intro_expect div {
   background-color: #faf5e5;
-  padding: 0.5rem 3rem;
+  padding: 0.5rem 3rem 0.5rem 1rem;
   border-radius: 0 1rem 1rem 0;
   border-left: 6px solid #dbbc47;
   height: max-content;
@@ -274,7 +271,7 @@ input::placeholder {
   flex-direction: column;
 }
 .no_spam {
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   color: rgb(112 51 76 / 60%);
   text-align: center;
   margin: 1rem 0 0.5rem 0;
@@ -282,7 +279,7 @@ input::placeholder {
 /* footer */
 footer {
   background-color: #faf5e5;
-  padding: 0.2rem 1rem 0.15rem 1rem;
+  padding: 0.2rem 3rem 0.15rem 3rem;
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
@@ -376,6 +373,9 @@ footer svg {
   }
   .signup button {
     margin: 1.2rem 0;
+  }
+  .no_spam {
+    font-size: 1rem;
   }
   footer {
     flex-direction: column;
