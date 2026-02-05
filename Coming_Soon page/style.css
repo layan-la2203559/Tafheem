@@ -176,6 +176,7 @@ p {
   margin: 0.2rem 0;
   max-width: 30rem;
   height: fit-content;
+  transition:
 }
 .intro_expect p {
   font-size: 0.91rem;
