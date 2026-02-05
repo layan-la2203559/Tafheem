@@ -35,7 +35,7 @@ h2 {
 /* Header and logo */
 header {
   text-align: center;
-  padding: 0 4rem;
+  padding: 0 5rem;
   background-color: #70334c;
   color: white;
   display: flex;
@@ -79,7 +79,7 @@ main {
   align-items: flex-start;
   /* height: fit-content; */
   flex: 1;
-  margin: 0 1rem 0.8rem 1rem;
+  margin: 0 2.5rem 0.8rem 2.5rem;
   gap: 2.5rem;
 }
 .main_gradient {
@@ -137,7 +137,7 @@ p {
 .intro {
   width: 39rem;
   padding: 0rem;
-  height: +20px;
+  /* height: +30px; */
 }
 
 .intro .gradient-line {
@@ -197,8 +197,7 @@ p {
   width: 40%;
   background-color: #faf5e5;
   border: 2px solid #e7cd6a;
-  padding: 1rem 3rem;
-  padding-left: 3.2rem;
+  padding: 2rem 2rem 1.45rem 3.2rem;
   border-radius: 20px;
   min-width: 15rem;
   font-family: Amiri;
@@ -211,7 +210,7 @@ p {
   margin-left: 10px;
   box-shadow: 5px 5px 9px rgb(146, 146, 146);
   margin-top: 4px;
-  height: +20px;
+  /* margin-right: 20px; */
 }
 .signup .gradient-line {
   background: linear-gradient(to right, #dbbc47 0%, #c8d1d5 86%, #c8d1d5);
@@ -221,8 +220,9 @@ p {
 }
 .signup h2 {
   margin: 0;
-  font-size: 2.45rem;
+  font-size: 2.3rem;
   font-weight: 600;
+  line-height: 1.4;
 }
 form label {
   font-family: Inter;
@@ -279,7 +279,7 @@ input::placeholder {
 /* footer */
 footer {
   background-color: #faf5e5;
-  padding: 0.2rem 4.5rem 0.15rem 3.7rem;
+  padding: 0.2rem 5rem 0.15rem 4rem;
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
@@ -322,31 +322,30 @@ footer svg {
     padding: 1rem 0rem;
   }
   header .logo {
-    font-size: 2rem;
+    font-size: 2.1rem;
   }
   .yellow {
     top: unset;
   }
   header div {
     content: none;
-    /* background-color: black; */
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     line-height: 1.5rem;
   }
 
   main {
     flex-direction: column;
     justify-content: center;
+    margin-right: 0;
+    margin-left: 0;
     margin-bottom: 1rem;
     padding: 0 2rem;
     gap: 2rem;
     margin-top: 0;
-    /* align-items: center; */
   }
   .intro {
     width: 100%;
     min-width: unset;
-    /* text-align: center;  */
     height: unset;
   }
   .intro_top {
@@ -356,7 +355,7 @@ footer svg {
     justify-content: flex-start;
   }
   .intro_top .gradient-line {
-    margin: 0.25rem 0 1rem 0;
+    margin: 0.7rem 0 1rem 0;
   }
   .main_gradient {
     margin: unset;
@@ -365,13 +364,13 @@ footer svg {
   }
 
   .intro_top h2 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
   .intro_expect h3 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
   .intro_expect p {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .signup {
@@ -379,9 +378,18 @@ footer svg {
     margin: 0 auto 0 auto;
     height: auto;
     max-height: none;
+    padding: 1.2rem;
+  }
+  .signup h2 {
+    font-size: 2.2rem;
   }
   .signup button {
     margin: 1.2rem 0;
+    font-size: 1.1rem;
+  }
+  form label {
+    font-size: 1rem;
+    margin-left: 6px;
   }
   .no_spam {
     font-size: 1rem;
@@ -389,9 +397,11 @@ footer svg {
   footer {
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    padding: 1.5rem 1rem 0.5rem 1rem;
     height: unset;
     margin-top: auto;
+
+    font-size: 0.8rem;
   }
   .instagram {
     height: unset;
