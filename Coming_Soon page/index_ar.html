@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8" />
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiri" />
-  <title>Tafheem</title>
+  <title>تفهيم</title>
 </head>
 
 <body>
@@ -21,58 +21,59 @@
       <span class="yellow">تفهيم</span>
       <span class="purple">Tafheem</span>
     </h1>
-    <div>Tadabbur. Tafakkur. Tafheem.
-      <a class="language" href="index_ar.html">العربية</a>
+    <div>تدبّر. تفكّر. تفهيم.
+      <a class="language" href="index.html">english</a>
 
     </div>
+
   </header>
   <main>
     <div class="intro">
       <div class="intro_top">
-        <h1>A new way to reflect on the Qur'an.</h1>
+        <h1>طريقة جديدة للتدبّر في القرآن.</h1>
         <div class="gradient-line"></div>
 
         <p>
-          We're building an interactive reflection platform to help you
-          understand and connect with the Qur'an — through meaning, context,
-          and community.
+          نعمل على بناء منصة تفاعلية للتدبّر تساعدك على فهم القرآن
+          والتواصل معه — من خلال المعاني والسياق
+          والمجتمع.
         </p>
         <div class="main_gradient">
           <span class="plus">+</span>
         </div>
       </div>
       <div class="intro_expect">
-        <h2>What to expect?</h2>
+        <h2>ماذا يمكنك أن تتوقع؟</h2>
         <div>
-          <h3>Word-by-word study</h3>
-          <p>Deep dive into the linguistic beauty of the Qur'an</p>
+          <h3>دراسة كلمة بكلمة</h3>
+          <p>تعمّق في الجمال اللغوي للقرآن</p>
         </div>
         <div>
-          <h3>Reflections & community insights</h3>
-          <p>Reflect together and grow through the Qur’an.</p>
+          <h3>تأملات ورؤى مجتمعية</h3>
+          <p>تدبّروا معًا وازدهروا من خلال القرآن.</p>
         </div>
         <div>
-          <h3>Personalized notes & tools</h3>
-          <p>Build your own reflection journal and study resources</p>
+          <h3>ملاحظات وأدوات مخصصة</h3>
+          <p>أنشئ دفتر تدبّر خاص بك وموارد دراسية مميزة</p>
         </div>
       </div>
     </div>
     <div class="signup">
-      <h2>Be the first to get early access.</h2>
+      <h2>كن أول من يحصل على وصول مبكر.</h2>
       <div class="gradient-line"></div>
 
       <form id="waitForm">
-        <label for="name">Full Name</label>
-        <input id="name" type="text" placeholder="Enter your name" required />
+        <label for="name">الاسم الكامل</label>
+        <input id="name" type="text" placeholder="أدخل اسمك" required />
 
-        <label for="email">Email Address</label>
+        <label for="email">البريد الإلكتروني</label>
         <input id="email" type="email" placeholder="example@email.com" required />
 
-        <button type="submit">Join the Waitlist</button>
+        <button type="submit">انضم إلى قائمة الانتظار</button>
       </form>
 
       <p id="message" class="no_spam">
-        No spam. Only updates about Tafheem's launch.
+        لا رسائل مزعجة. فقط تحديثات حول إطلاق تفهيم.
       </p>
     </div>
   </main>
@@ -95,7 +96,8 @@
       </a>
     </span>
 
-    <p class="copyright">&copy; 2026 Tafheem · All rights reserved</p>
+
+    <p class="copyright">&copy; 2026 تفهيم · جميع الحقوق محفوظة</p>
   </footer>
 
   <script>
@@ -108,7 +110,7 @@
         const email = document.getElementById("email").value;
         const message = document.getElementById("message");
 
-        message.innerText = "Saving...";
+        message.innerText = "جارٍ الحفظ...";
 
         const res = await fetch("save.php", {
           method: "POST",
