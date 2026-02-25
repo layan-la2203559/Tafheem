@@ -147,7 +147,7 @@ if ($lang === "ar") {
 }
 
     $mail->send();
-
+}
 catch (Exception $e) {
     echo json_encode(["message" => "Mailer Error: " . $mail->ErrorInfo]);
     exit();
