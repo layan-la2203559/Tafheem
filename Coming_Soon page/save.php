@@ -149,7 +149,12 @@ if ($lang === "ar") {
 } catch (Exception $e) {
     // optional: log errors
 }
-echo json_encode(["message" => "You're on the waitlist! Check your email 📩"]);
+if ($lang === "ar") {
+    $responseMsg = "تم تسجيلك في قائمة الانتظار! تحقق من بريدك الإلكتروني 📩";
+} else {
+    $responseMsg = "You're on the waitlist! Check your email 📩";
+}
 
+echo json_encode(["message" => $responseMsg]);
 $conn->close();
 ?>
