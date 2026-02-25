@@ -1,131 +1,153 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="favicon.png" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
-  <link rel="shortcut icon" href="favicon.ico" />
-  <link rel="apple-touch-icon" href="favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Playfair+Display"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Amiri"
+    />
+    <title>تفهيم</title>
+  </head>
 
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiri" />
-  <title>تفهيم</title>
-</head>
+  <body>
+    <header>
+      <h1 class="logo">
+        <span class="yellow">تفهيم</span>
+        <span class="purple">Tafheem</span>
+      </h1>
+      <div>
+        تدبّر. تفكّر. تفهيم.
+        <a class="language" href="index.html">english</a>
+      </div>
+    </header>
+    <main>
+      <div class="intro">
+        <div class="intro_top">
+          <h1>طريقة جديدة للتدبّر في القرآن.</h1>
+          <div class="gradient-line"></div>
 
-<body>
-  <header>
-    <h1 class="logo">
-      <span class="yellow">تفهيم</span>
-      <span class="purple">Tafheem</span>
-    </h1>
-    <div>تدبّر. تفكّر. تفهيم.
-      <a class="language" href="index.html">english</a>
-
-    </div>
-
-  </header>
-  <main>
-    <div class="intro">
-      <div class="intro_top">
-        <h1>طريقة جديدة للتدبّر في القرآن.</h1>
+          <p>
+            نعمل على بناء منصة تفاعلية للتدبّر تساعدك على فهم القرآن والتواصل
+            معه — من خلال المعاني والسياق والمجتمع.
+          </p>
+          <div class="main_gradient">
+            <span class="plus">+</span>
+          </div>
+        </div>
+        <div class="intro_expect">
+          <h2>ماذا يمكنك أن تتوقع؟</h2>
+          <div>
+            <h3>دراسة كلمة بكلمة</h3>
+            <p>تعمّق في الجمال اللغوي للقرآن</p>
+          </div>
+          <div>
+            <h3>تأملات ورؤى مجتمعية</h3>
+            <p>تدبّروا معًا وازدهروا من خلال القرآن.</p>
+          </div>
+          <div>
+            <h3>ملاحظات وأدوات مخصصة</h3>
+            <p>أنشئ دفتر تدبّر خاص بك وموارد دراسية مميزة</p>
+          </div>
+        </div>
+      </div>
+      <div class="signup">
+        <h2>كن أول من يحصل على وصول مبكر.</h2>
         <div class="gradient-line"></div>
 
-        <p>
-          نعمل على بناء منصة تفاعلية للتدبّر تساعدك على فهم القرآن
-          والتواصل معه — من خلال المعاني والسياق
-          والمجتمع.
+        <form id="waitForm">
+          <label for="name">الاسم الكامل</label>
+          <input id="name" type="text" placeholder="أدخل اسمك" required />
+
+          <label for="email">البريد الإلكتروني</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="example@email.com"
+            required
+          />
+
+          <button type="submit">انضم إلى قائمة الانتظار</button>
+        </form>
+
+        <p id="message" class="no_spam">
+          لا رسائل مزعجة. فقط تحديثات حول إطلاق تفهيم.
         </p>
-        <div class="main_gradient">
-          <span class="plus">+</span>
-        </div>
       </div>
-      <div class="intro_expect">
-        <h2>ماذا يمكنك أن تتوقع؟</h2>
-        <div>
-          <h3>دراسة كلمة بكلمة</h3>
-          <p>تعمّق في الجمال اللغوي للقرآن</p>
-        </div>
-        <div>
-          <h3>تأملات ورؤى مجتمعية</h3>
-          <p>تدبّروا معًا وازدهروا من خلال القرآن.</p>
-        </div>
-        <div>
-          <h3>ملاحظات وأدوات مخصصة</h3>
-          <p>أنشئ دفتر تدبّر خاص بك وموارد دراسية مميزة</p>
-        </div>
-      </div>
-    </div>
-    <div class="signup">
-      <h2>كن أول من يحصل على وصول مبكر.</h2>
-      <div class="gradient-line"></div>
+    </main>
 
-      <form id="waitForm">
-        <label for="name">الاسم الكامل</label>
-        <input id="name" type="text" placeholder="أدخل اسمك" required />
+    <footer>
+      <span class="links">
+        <a
+          class="instagram"
+          href="https://instagram.com/tafheem.io"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791-4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+            />
+          </svg>
+          @tafheem.io
+        </a>
+        <a href="">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+          >
+            <path
+              d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.708-.663 2.658-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.033.146-.11.177-.253.111-1.002-.465-1.628-1.926-1.628-3.098 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"
+            />
+          </svg>
+          tafheem
+        </a>
+      </span>
 
-        <label for="email">البريد الإلكتروني</label>
-        <input id="email" type="email" placeholder="example@email.com" required />
+      <p class="copyright">&copy; 2026 تفهيم · جميع الحقوق محفوظة</p>
+    </footer>
 
-        <button type="submit">انضم إلى قائمة الانتظار</button>
-      </form>
+    <script>
+      document
+        .getElementById("waitForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-      <p id="message" class="no_spam">
-        لا رسائل مزعجة. فقط تحديثات حول إطلاق تفهيم.
-      </p>
-    </div>
-  </main>
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const message = document.getElementById("message");
 
-  <footer>
-    <span class="links">
-      <a class="instagram" href="https://instagram.com/tafheem.io" target="_blank" rel="noopener noreferrer">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791-4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-        </svg>
-        @tafheem.io
-      </a>
-      <a href="">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
-          <path
-            d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.708-.663 2.658-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.033.146-.11.177-.253.111-1.002-.465-1.628-1.926-1.628-3.098 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z" />
-        </svg>
-        tafheem
-      </a>
-    </span>
+          message.innerText = "جارٍ الحفظ...";
 
+          const res = await fetch("save.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, lang: "ar" }),
+          });
 
-    <p class="copyright">&copy; 2026 تفهيم · جميع الحقوق محفوظة</p>
-  </footer>
+          const data = await res.json();
 
-  <script>
-    document
-      .getElementById("waitForm")
-      .addEventListener("submit", async function (e) {
-        e.preventDefault();
+          message.innerText = data.message;
 
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const message = document.getElementById("message");
-
-        message.innerText = "جارٍ الحفظ...";
-
-        const res = await fetch("save.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email }),
+          // clear form
+          this.reset();
         });
-
-        const data = await res.json();
-
-        message.innerText = data.message;
-
-        // clear form
-        this.reset();
-      });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

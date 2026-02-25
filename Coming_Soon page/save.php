@@ -38,6 +38,8 @@ if ($conn->connect_error) {
 
 // get JSON input
 $data = json_decode(file_get_contents("php://input"), true);
+//Read language from request
+$lang = $data["lang"] ?? "en";
 /* anti-spam delay */
 sleep(1);
 $name = htmlspecialchars(trim($data["name"]));
@@ -75,6 +77,32 @@ if (!$stmt->execute()) {
     // $to = $email;
     // $subject = "Welcome to the Tafheem Waitlist, $firstName";
 
+  if ($lang === "ar") {
+
+    $subject = "مرحباً بك في قائمة انتظار تفهيم، $firstName";
+
+    $message = "
+السلام عليكم ورحمة الله وبركاته $firstName،
+
+شكرًا لحجز مكانك في قائمة انتظار تفهيم. نحن ممتنون جدًا لانضمامك إلينا.
+
+تفهيم يتم تطويرها بعناية لتكون مساحة هادئة للتدبر في القرآن الكريم، تساعدك على التعمق في المعاني والتأمل والتفاعل مع كتاب الله.
+
+بصفتك من أوائل المسجلين، ستحصل على:
+• وصول مبكر حصري عند الإطلاق
+• تحديثات خاصة بالميزات الجديدة
+• فرصة للمساهمة في تطوير المنصة
+
+سنكون على تواصل قريبًا بإذن الله.
+
+جزاك الله خيرًا،
+فريق تفهيم
+";
+
+} else {
+
+    $subject = "Welcome to the Tafheem Waitlist, $firstName";
+
     $message = "
 Assalamu alaikum wa rahmatullahi wa barakatuh, $firstName.
 
@@ -87,13 +115,12 @@ As a founding waitlist member, you'll receive:
 • Personal updates on new reflections and features.
 • A direct voice in shaping Tafheem's growth.
 
-We are building Tafheem with sincere intention and care, and we are honored to have you accompanying us from the very beginning.
-
 We will be in touch soon, in shā' Allāh.
 
 Jazakallahu khairan,
 The Tafheem Team
 ";
+} 
 
 $mail = new PHPMailer(true);
 try {
@@ -108,8 +135,14 @@ try {
     $mail->setFrom('hello@tafheem.io', 'Tafheem');
     $mail->addAddress($email, $firstName);
 
-    $mail->Subject = "Welcome to the Tafheem Waitlist, $firstName";
-    $mail->Body    = $message;
+$mail->isHTML(true);
+$mail->Subject = $subject;
+
+if ($lang === "ar") {
+    $mail->Body = "<div dir='rtl' style='font-family: Amiri, serif;'>".nl2br($message)."</div>";
+} else {
+    $mail->Body = nl2br($message);
+}
 
     $mail->send();
 
