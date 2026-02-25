@@ -123,6 +123,8 @@ The Tafheem Team
 } 
 
 $mail = new PHPMailer(true);
+$mail->CharSet = 'UTF-8';
+$mail->Encoding = 'base64';
 try {
     $mail->isSMTP();
     $mail->Host       = $_ENV['SMTP_HOST'];
@@ -146,8 +148,9 @@ if ($lang === "ar") {
 
     $mail->send();
 
-} catch (Exception $e) {
-    // optional: log errors
+catch (Exception $e) {
+    echo json_encode(["message" => "Mailer Error: " . $mail->ErrorInfo]);
+    exit();
 }
 if ($lang === "ar") {
     $responseMsg = "تم تسجيلك في قائمة الانتظار! تحقق من بريدك الإلكتروني 📩";
