@@ -20,17 +20,20 @@ html {
   margin: 0;
 }
 body {
+  margin: 0;
+}
+.page {
   color: #70334c;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   font-family: Inter;
   background-color: #fefcf7;
-  height: 100vh;
   min-height: 100vh;
   width: 100%;
   margin: 0;
   padding: 0;
-  gap: 1.7rem;
+  gap: 1.5rem;
 }
 h1,
 h2 {
@@ -81,7 +84,7 @@ header .language a {
   word-spacing: normal;
 }
 .language {
-  font-size: 8pt;
+  font-size: 9pt;
   background-color: rgba(255, 255, 255, 0.226);
   border-radius: 8px;
   padding: 3px;
@@ -103,7 +106,7 @@ header .language a {
 }
 .ar:hover {
   color: #70334c;
-  background-color: rgba(252, 252, 252, 0.897);
+  background-color: rgba(252, 252, 252, 0.6);
 }
 .white {
   color: white;
@@ -114,7 +117,7 @@ main {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
   flex: 1;
   margin: 0 2.5rem 0.8rem 2.5rem;
   gap: 2.5rem;
@@ -207,10 +210,9 @@ p {
   padding: 0.5rem 3rem 0.5rem 1rem;
   border-radius: 0 1rem 1rem 0;
   border-left: 3px solid #dbbc47;
-  height: max-content;
+  height: 61px;
   margin: 0.2rem 0;
   max-width: 29rem;
-  height: fit-content;
   transition:
     transform 0.3s ease,
     border-color 0.3s ease;
@@ -237,14 +239,14 @@ p {
   /* width: 40%; */
   min-width: 40%;
   max-width: 25rem;
-  height: 30.4rem;
   min-height: fit-content;
+  max-height: 30.4rem;
   background-color: #faf5e5;
   border: 2px solid #e7cd6a;
   padding: 0rem 2rem 0rem 2.5rem;
   border-radius: 20px;
   font-family: Amiri;
-
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -318,15 +320,15 @@ input::placeholder {
 /* footer */
 footer {
   background-color: #faf5e5;
-  padding: 0.2rem 5rem 0.15rem 4rem;
   display: flex;
   justify-content: space-between;
   font-size: 0.7rem;
   align-items: center;
-  height: 2.8rem;
   margin-bottom: 0;
   padding-left: 2rem; /* Consistent left alignment */
   padding-right: 2rem; /* Consistent right alignment */
+  padding-top: 0.6rem;
+  padding-bottom: 5px;
 }
 
 .links {
@@ -334,16 +336,16 @@ footer {
   align-items: center;
   background-color: rgb(231, 205, 106, 50%);
   width: fit-content;
-  padding: 0 12px;
+  padding: 1px 12px;
   gap: 10px;
   border-radius: 999px;
   margin-left: 1rem;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  height: 1.7rem;
   font-family: Amiri;
   font-style: normal;
+  font-size: 11pt;
 }
 
 footer .copyright {
@@ -374,7 +376,9 @@ main {
 
 .intro {
   flex: 1; /* Takes up available space */
-  /* max-width Prevents text from stretching too far */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .signup {
@@ -387,8 +391,6 @@ main {
 /* Footer Adjustments */
 footer {
   background-color: #faf5e5;
-  height: 3.5rem;
-  padding-top: 7px;
 }
 
 .links {
@@ -446,6 +448,8 @@ footer {
 
   .intro .gradient-line {
     background: linear-gradient(to left, #dbbc47 0%, #c8d1d5 86%, #c8d1d5);
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .signup .gradient-line {
     background: linear-gradient(to left, #dbbc47 0%, #c8d1d5 86%, #c8d1d5);
@@ -469,13 +473,19 @@ footer {
   p {
     font-size: 0.9rem;
   }
+  .intro_top {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 6pt;
+  }
 
   .intro_top p {
-    font-size: 1.1rem;
+    font-size: 13pt;
   }
 
   .intro_expect p {
-    font-size: 1.1rem;
+    font-size: 12pt;
   }
 
   .intro_expect h2 {
@@ -483,7 +493,9 @@ footer {
   }
 
   .intro_expect h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-bottom: 0;
   }
 
   .signup h2 {
@@ -491,11 +503,11 @@ footer {
   }
 
   form label {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .signup button {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .no_spam {
@@ -510,8 +522,8 @@ footer {
     margin-bottom: 0;
     gap: 5rem;
   }
-  body {
-    gap: 1.3rem;
+  .page {
+    gap: 29px;
   }
   .intro_top h1 {
     font-family: Amiri;
@@ -526,8 +538,9 @@ footer {
   }
   .signup {
     padding: 0rem 2.5rem 0rem 2rem; /* flip left/right padding */
+    min-width: 40%;
+    max-width: 25rem;
     margin-left: -2px; /* keep it flush */
-    height: 100%;
     margin-top: 0;
     margin-bottom: 4px;
     /* max-height: fit-content; */
@@ -548,7 +561,7 @@ footer {
   }
   .en:hover {
     color: #70334c;
-    background-color: rgba(252, 252, 252, 0.897);
+    background-color: rgba(252, 252, 252, 0.6);
   }
   header div {
     gap: 18px;
@@ -565,7 +578,7 @@ footer {
   }
 }
 @media (max-width: 705px) {
-  body {
+  .page {
     gap: 1rem;
   }
 
@@ -601,7 +614,6 @@ footer {
   .intro {
     width: 100%;
     min-width: unset;
-    height: unset;
   }
   .intro_top {
     margin: 1rem 0rem 0.2rem 0rem;
@@ -653,7 +665,6 @@ footer {
     flex-direction: column;
     align-items: center;
     padding: 1.5rem 1rem 0.5rem 1rem;
-    height: unset;
     margin-top: auto;
     font-size: 0.8rem;
   }
