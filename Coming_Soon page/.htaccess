@@ -3,3 +3,12 @@
     Deny from all
 </Files>
 php_flag display_errors Off
+
+RewriteEngine On
+
+# Clean URL rewrites
+RewriteRule ^en/?$ index.html [L]
+RewriteRule ^ar/?$ index_ar.html [L]
+
+# Redirect root to /en
+RewriteRule ^$ /en [R=301,L]
