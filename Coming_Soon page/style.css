@@ -347,7 +347,10 @@ footer {
   font-style: normal;
   font-size: 11pt;
 }
-
+.links svg {
+  width: 1rem;
+  height: 1rem;
+}
 footer .copyright {
   color: rgb(112 51 76 / 50%);
 }
@@ -454,12 +457,27 @@ footer {
   .signup .gradient-line {
     background: linear-gradient(to left, #dbbc47 0%, #c8d1d5 86%, #c8d1d5);
   }
-
+  .intro {
+    max-width: 22rem;
+    justify-content: flex-start;
+  }
+  .intro_expect {
+    gap: 3px;
+  }
   .intro_expect div {
     border-left: none;
     border-radius: 1rem 0 0 1rem;
     border-right: 3px solid #dbbc47;
     padding: 0.5rem 1rem 0.5rem 3rem;
+  }
+  header,
+  main,
+  footer {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10vw; /* Consistent left alignment */
+    padding-right: 10vw; /* Consistent right alignment */
   }
   /* New font sizes */
   header h1 {
@@ -477,7 +495,7 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 6pt;
+    gap: 6px;
   }
 
   .intro_top p {
@@ -528,8 +546,8 @@ footer {
   .intro_top h1 {
     font-family: Amiri;
     line-height: 1.4;
-    font-size: 2.97rem;
-    /* width: 25rem; */
+    font-size: 2.87rem;
+    width: 25rem;
   }
   .intro_expect h2,
   .intro_expect h3,
@@ -566,6 +584,13 @@ footer {
   header div {
     gap: 18px;
   }
+  /* New arabic padding */
+  /* header,
+  main,
+  footer {
+    padding-left: 13vw; 
+    padding-right: 13vw; 
+  } */
 }
 @media (max-width: 850px) {
   .signup {
@@ -589,6 +614,23 @@ footer {
     height: unset;
     padding: 1rem 0rem;
   }
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  header .language a {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .language {
+    width: 130px;
+    height: 50px;
+    font-size: 12pt;
+  }
   header .logo {
     font-size: 2.1rem;
   }
@@ -597,7 +639,7 @@ footer {
   }
   header div {
     content: none;
-    font-size: 1.3rem;
+    font-size: 13pt;
     line-height: 1.5rem;
   }
 
@@ -623,6 +665,9 @@ footer {
   }
   .intro_top .gradient-line {
     margin: 0.7rem 0 1rem 0;
+  }
+  .intro_expect div {
+    height: unset;
   }
   .main_gradient {
     margin: unset;
@@ -664,13 +709,66 @@ footer {
   footer {
     flex-direction: column;
     align-items: center;
-    padding: 1.5rem 1rem 0.5rem 1rem;
+    padding: 1rem 1rem 0.5rem 1rem;
     margin-top: auto;
     font-size: 0.8rem;
+    gap: 9px;
   }
   .instagram {
     height: unset;
     font-size: 0.9rem;
+  }
+  .links {
+    font-size: 13pt;
+    gap: 13px;
+    padding: 2px 13px;
+  }
+  .links svg {
+    width: 20px;
+    height: 20px;
+  }
+  [dir="rtl"] {
+    /* Edits for arabic phone */
+    header div {
+      display: flex;
+      flex-direction: column;
+    }
+    header .logo {
+      font-size: 2rem;
+    }
+    header div {
+      font-size: 1.7rem;
+    }
+    .intro {
+      max-width: unset;
+    }
+    .intro_top h1 {
+      width: unset;
+    }
+    .signup {
+      min-width: unset;
+      max-width: unset;
+      padding: 1rem 2.5rem 1rem 2rem;
+    }
+    main {
+      gap: 2rem;
+    }
+    .intro_top p {
+      font-size: 13.5pt;
+    }
+    .intro_expect p {
+      font-size: 13pt;
+    }
+    .intro_expect h3 {
+      font-size: 15pt;
+    }
+    .links {
+      font-size: 14pt;
+    }
+    /* .links svg {
+      width: 20px;
+      height: 20px;
+    } */
   }
 }
 @media (hover: hover) {
