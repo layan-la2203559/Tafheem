@@ -1,0 +1,18 @@
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+php_flag display_errors Off
+
+RewriteEngine On
+
+# Serve files from "Coming_Soon page" subfolder without showing it in the URL
+RewriteCond %{REQUEST_URI} !^/Coming_Soon\ page/
+RewriteRule ^(.*)$ /Coming_Soon\ page/$1 [L]
+
+# Clean URL rewrites
+RewriteRule ^Coming_Soon\ page/en/?$ /Coming_Soon\ page/index.html [L]
+RewriteRule ^Coming_Soon\ page/ar/?$ /Coming_Soon\ page/index_ar.html [L]
+
+# Redirect root to /en
+RewriteRule ^Coming_Soon\ page/?$ /en [R=301,L]
