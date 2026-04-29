@@ -47,10 +47,23 @@ header {
   background-color: #70334c;
   color: white;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   height: 2.5rem;
 }
+.logo {
+  margin-right: auto; /* pushes everything else to the right */
+}
+
+.tagline {
+  margin-right: 1rem;
+}
+
+.language {
+  display: flex;
+  gap: 0.5rem;
+}
+
 header h1 {
   font-size: 1.5rem;
   font-weight: 1000;
@@ -64,9 +77,7 @@ header div {
   gap: 9px;
   align-items: center;
 }
-.logo {
-  margin: 0;
-}
+
 .yellow {
   color: #dbbc47;
   font-family: Amiri;
@@ -126,7 +137,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 30%;
+  width: 60%;
   max-width: 600px;
   margin-left: 3rem;
   gap: 7px;
@@ -407,18 +418,26 @@ footer {
 [dir="rtl"] {
   /* Arabic Switch */
   header div {
-    /* word-spacing: 10px; */
+    word-spacing: 5px;
     font-size: 1.25rem;
     position: relative;
     top: -1px;
     font-family: XB Niloofar;
   }
-
   header .logo {
     font-size: 1.7rem;
+    margin-right: unset;
+    margin-left: auto;
+  }
+
+  header .tagline {
+    margin-left: 1.5rem;
   }
   header .yellow {
     top: -5px;
+  }
+  header .language {
+    font-size: 9pt;
   }
   footer a {
     direction: ltr;
@@ -561,7 +580,6 @@ footer {
     margin-left: -2px; /* keep it flush */
     margin-top: 0;
     margin-bottom: 4px;
-    /* max-height: fit-content; */
     box-shadow: -5px 5px 9px rgb(146, 146, 146);
   }
   .signup h2 {
@@ -581,16 +599,9 @@ footer {
     color: #70334c;
     background-color: rgba(252, 252, 252, 0.6);
   }
-  header div {
-    gap: 18px;
+  header .language {
+    font-family: Inter;
   }
-  /* New arabic padding */
-  /* header,
-  main,
-  footer {
-    padding-left: 13vw; 
-    padding-right: 13vw; 
-  } */
 }
 @media (max-width: 850px) {
   .signup {
@@ -610,9 +621,9 @@ footer {
   header {
     flex-direction: column;
     justify-content: center;
-    gap: 0.8rem;
+    gap: 2rem;
     height: unset;
-    padding: 1rem 0rem;
+    padding: 3rem 0rem;
   }
   .header-info {
     display: flex;
@@ -632,7 +643,8 @@ footer {
     font-size: 12pt;
   }
   header .logo {
-    font-size: 2.1rem;
+    font-size: 2.8rem;
+    font-weight: normal;
   }
   .yellow {
     top: unset;
@@ -642,7 +654,44 @@ footer {
     font-size: 13pt;
     line-height: 1.5rem;
   }
+  .header-info span {
+    font-size: 13pt;
+  }
+  .language_mobile {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    width: fit-content;
+    color: #e4b819;
+    top: 507px;
+    right: 0px;
+  }
 
+  .language_mobile a {
+    letter-spacing: normal;
+    font-style: normal;
+    text-decoration: none;
+    word-spacing: normal;
+    color: #e4b819;
+    font-size: 1rem;
+    border-radius: 0;
+    padding: 0.8rem;
+    padding-left: 1rem;
+  }
+  .language_mobile .en_mobile {
+    background-color: #83596b;
+    width: fit-content;
+    border-top-left-radius: 10px;
+    color: #e4b819;
+    box-shadow: 0px 0px 6px rgb(75, 75, 75);
+  }
+  .language_mobile .ar_mobile {
+    background-color: #70334c;
+    width: fit-content;
+    border-bottom-left-radius: 10px;
+    color: #83596b;
+    box-shadow: 0px 0px 6px rgb(75, 75, 75);
+  }
   main {
     flex-direction: column;
     justify-content: center;
@@ -674,7 +723,9 @@ footer {
     width: 70%;
     margin: 0.5rem auto 0 auto;
   }
-
+  .intro_top h1 {
+    font-weight: normal;
+  }
   .intro_top h2 {
     font-size: 1.7rem;
   }
@@ -728,16 +779,25 @@ footer {
     height: 20px;
   }
   [dir="rtl"] {
+  }
+  [dir="rtl"] {
     /* Edits for arabic phone */
     header div {
       display: flex;
       flex-direction: column;
     }
-    header .logo {
-      font-size: 2rem;
-    }
+
     header div {
       font-size: 1.7rem;
+    }
+    header .language {
+      font-size: 12pt;
+    }
+    header .logo {
+      font-size: 2.2rem;
+    }
+    header .tagline {
+      font-size: 1.1rem;
     }
     .intro {
       max-width: unset;
@@ -765,10 +825,124 @@ footer {
     .links {
       font-size: 14pt;
     }
-    /* .links svg {
-      width: 20px;
-      height: 20px;
-    } */
+    header div {
+      flex-direction: row;
+    }
+  }
+}
+@media (max-width: 450px) {
+  .page {
+    gap: 0rem;
+  }
+  .language_mobile {
+    top: 507px;
+  }
+  .page p,
+  .signup button {
+    font-size: 1rem;
+  }
+  h3 {
+    font-size: 1.125rem; /* 18px */
+  }
+
+  header {
+    display: grid;
+    grid-template-areas:
+      "logo language"
+      "tagline tagline";
+    grid-template-columns: 1fr min-content;
+    gap: 0;
+    padding: 0.75rem;
+    padding-top: 0;
+    align-items: start;
+    justify-items: start;
+  }
+  header .logo {
+    grid-area: logo;
+    margin-right: unset;
+    font-size: 2.2rem;
+    margin: 0;
+    justify-self: start;
+  }
+  .language {
+    grid-area: language;
+    justify-self: end;
+    width: 85px;
+    height: 38px;
+    margin-right: 0.5rem;
+    margin-top: 10px;
+  }
+  header .tagline {
+    grid-area: tagline;
+    font-size: 1rem;
+    margin-right: 0;
+
+    justify-self: start; /* anchor element to the left */
+    width: 100%; /* make it span full column width */
+
+    text-align: start; /* center the text inside */
+  }
+  header div {
+    letter-spacing: 0.2rem;
+  }
+  .intro_top h1 {
+    font-size: 1.75rem;
+  }
+  .intro {
+    gap: 5px;
+  }
+  .main_gradient {
+    margin-top: 8px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  main {
+    padding: 0 0.75rem;
+  }
+
+  h2,
+  .signup h2 {
+    font-size: 1.25rem;
+    font-weight: normal;
+  }
+
+  footer {
+    margin-top: 20px;
+  }
+  .instagram {
+    width: 24px;
+  }
+
+  [dir="rtl"] {
+    header div {
+      flex-direction: row;
+    }
+    .en_mobile {
+      background-color: #70334c;
+      color: #83596b;
+    }
+    .ar_mobile {
+      background-color: #83596b;
+      color: #e4b819;
+    }
+    header div {
+      font-size: 1.7rem;
+    }
+    header .language {
+      font-size: 12pt;
+    }
+    header .logo {
+      font-size: 2.2rem;
+    }
+    header .tagline {
+      font-size: 1.4rem;
+      /* word-spacing: 0.8rem; */
+    }
+  }
+
+  .language_mobile {
+    display: none;
   }
 }
 @media (hover: hover) {
