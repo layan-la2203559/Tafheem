@@ -128,7 +128,6 @@ if ($apiSecret) {
             stream_context_create($subscribeOpts)
         );
     }
-    // Kit failure is silent — the user still gets their welcome email below
 }
 
 /* ======================
