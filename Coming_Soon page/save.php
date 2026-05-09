@@ -221,7 +221,8 @@ $htmlBody = "
 // NEW: Load email template from /Email folder based on language
 if ($lang === "ar") {
     $subject = "مرحباً بك في قائمة انتظار تفهيم، $firstName";
-    $templateFile = __DIR__ . '/../Email/email_ar.html';
+    // $templateFile = __DIR__ . '/../Email/email_ar.html'; // OLD Arabic template — replaced by email_new_ar.html
+    $templateFile = __DIR__ . '/../Email/email_new_ar.html';
 } else {
     $subject = "Welcome to the Tafheem Waitlist, $firstName";
     // $templateFile = __DIR__ . '/../Email/email.html'; // OLD English template — replaced by email_new.html
