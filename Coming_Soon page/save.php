@@ -134,6 +134,10 @@ if ($apiSecret) {
     SEND EMAIL (SMTP)
 ====================== */
 
+/* ======================
+    OLD EMAIL DESIGN (commented out — replaced by HTML templates in /Email folder)
+====================== */
+/*
 // Brand Colors
 $purple   = "#70334c";
 $yellow   = "#dbbc47";
@@ -212,6 +216,19 @@ $htmlBody = "
     </table>
 </div>
 ";
+*/
+
+// NEW: Load email template from /Email folder based on language
+if ($lang === "ar") {
+    $subject = "مرحباً بك في قائمة انتظار تفهيم، $firstName";
+    $templateFile = __DIR__ . '/../Email/email_ar.html';
+} else {
+    $subject = "Welcome to the Tafheem Waitlist, $firstName";
+    $templateFile = __DIR__ . '/../Email/email.html';
+}
+
+$htmlBody = file_get_contents($templateFile);
+$htmlBody = str_replace('{{NAME}}', $firstName, $htmlBody);
 
 $mail = new PHPMailer(true);
 $mail->CharSet = 'UTF-8';
