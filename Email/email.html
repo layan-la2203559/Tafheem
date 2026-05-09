@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiri" />
+
+  <title>Tafheem Waitlist Confirmation</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-maroon: #70334c;
+      --gold: #dbbc47;
+      --text-color: #4a4a4a;
+      --bg-light: #ffffff;
+      --border-light: #f3e9d9;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      /* Light grey background for the outer area */
+      font-family: 'Inter';
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* The main "card" for the content */
+    .email-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: var(--bg-light);
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .content span {
+      display: inline;
+    }
+
+    /* Maroon Header */
+    .header {
+      background-color: var(--primary-maroon);
+      padding: 5px 0px;
+      text-align: center;
+      color: white;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      font-weight: 700;
+      margin-left: 10px;
+      border-left: 1px solid rgba(255, 255, 255, 0.3);
+      padding-left: 15px;
+    }
+
+    /* Content Padding */
+    .content {
+      padding: 30px 30px;
+    }
+
+    .greeting {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--primary-maroon);
+      /* margin-bottom: 25px; */
+    }
+
+    .highlight-name {
+      color: var(--gold);
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      display: block;
+      margin-top: 5px;
+    }
+
+    p {
+      margin-bottom: 0;
+      font-size: 1.05rem;
+      font-weight: normal;
+      font-family: Inter;
+    }
+
+    /* Perks Section */
+    .perks-section p {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+
+    .perks-section ul {
+      list-style: none;
+      padding: 0;
+      padding-left: 20px;
+      margin-bottom: 40px;
+    }
+
+    .perks-section li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+
+    .perks-section li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
+
+    .italic-lead {
+      font-style: italic;
+      text-align: center;
+      margin: 40px 0 15px 0;
+      font-family: 'Amiri';
+      color: var(--text-color);
+    }
+
+    /* Verse Box Styling */
+    .verse-box {
+      border: 1px solid var(--border-light);
+      padding: 30px 20px;
+      text-align: center;
+      margin: 0 0 40px 0;
+      background-color: #fffdf9;
+      position: relative;
+    }
+
+    .arabic {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #333;
+      /* Using standard serif for Arabic script clarity */
+      font-family: "Amiri";
+    }
+
+    .translation {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .citation {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .closing {
+      margin-top: 50px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .closing p {
+      margin: 0;
+      font-style: normal;
+    }
+
+    /* Footer Section */
+    .footer {
+      background-color: var(--primary-maroon);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    /* Simple circular placeholders for icons */
+    .social-icon {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 0.7rem;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .social-icon:hover {
+      background: var(--gold);
+      color: var(--primary-maroon);
+    }
+
+    .logo .yellow {
+      color: #dbbc47;
+      font-family: Amiri;
+      position: relative;
+      top: -4px;
+      border-left: none;
+      margin: 0;
+    }
+
+    .team {
+      font-family: 'PlayFair Display';
+      font-weight: 400;
+      color: #632a44;
+      font-size: 1.2rem;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="email-container">
+    <header class="header">
+      <div class="logo">
+        <span class="yellow">تفهيم</span>
+
+        <span>Tafheem</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="greeting">
+        Assalamu alaikum wa rahmatullahi wa barakatuh,
+        <span class="highlight-name">FAIZA.</span>
+      </div>
+
+      <p>Thank you for reserving your spot on the Tafheem waitlist. We are truly grateful to have you with us.</p>
+
+      <p>Tafheem is being carefully crafted as a dedicated space for thoughtful Qur'an reflection — a place to slow
+        down, deepen your connection, and engage with the meanings of the Qur'an.</p>
+
+      <div class="perks-section">
+        <p>AS A FOUNDING WAITLIST MEMBER, YOU'LL RECEIVE</p>
+        <ul>
+          <li>Exclusive early access when we launch.</li>
+          <li>Personal updates on new reflections and features.</li>
+          <li>A direct voice in shaping Tafheem's growth.</li>
+        </ul>
+      </div>
+
+      <p class="italic-lead">This is the question that shapes Tafheem:</p>
+
+      <div class="verse-box">
+        <div class="arabic">أَفَلَا يَتَدَبَّرُونَ الْقُرْآنَ</div>
+        <div class="translation">"Then do they not reflect upon the Qur'an?"</div>
+        <div class="citation">MUHAMMAD - 47:24</div>
+      </div>
+
+      <p>This is the intention behind everything we are building — to create a space that helps us turn to the Qur'an
+        and sit with its meanings.</p>
+
+      <p>We will be in touch soon, in shā' Allāh.</p>
+
+      <div class="closing">
+        <p>Jazakallahu khairan,</p>
+        <p class="team">The Tafheem Team</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <a href="https://www.tafheem.io" target="_blank">www.tafheem.io</a>
+      <div class="social-icons">
+        <a href="#" class="social-icon">P</a>
+        <a href="#" class="social-icon">IG</a>
+      </div>
+    </footer>
+  </div>
+
+</body>
+
+</html>
