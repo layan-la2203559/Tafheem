@@ -246,6 +246,7 @@ try {
 
     $mail->setFrom('hello@tafheem.io', 'Tafheem');
     $mail->addAddress($email, $firstName);
+    $mail->addEmbeddedImage(__DIR__ . '/../Email/tafheem_logo.png', 'tafheem_logo');
 $mail->isHTML(true);
 $mail->Subject = $subject;
 $mail->Body    = $htmlBody;
