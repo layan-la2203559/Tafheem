@@ -1,6 +1,7 @@
 
 <?php
-function loadEnv($path) {
+function loadEnv($path)
+{
     if (!file_exists($path)) return;
 
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -147,21 +148,21 @@ if ($lang === "ar") {
     $dir = "rtl";
     $fontFamily = "'Amiri', serif";
     $titleHtml = "<span style='color: $yellow;'>تفهيم</span>";
-     $content = "
+    $content = "
         <p>السلام عليكم ورحمة الله وبركاته $firstName،</p>
-        <p>شكرًا لحجز مكانك في قائمة انتظار <strong>تفهيم</strong>. نحن ممتنون جدًا لانضمامك إلينا.</p>
-        <p>تفهيم يتم تطويرها بعناية لتكون مساحة هادئة للتدبر في القرآن الكريم، تساعدك على التأني، وتعميق صلتك بكتاب الله، والتفاعل مع معانيه العظيمة.</p>
+        <p>شكرًا لحجز مكانك في قائمة انتظار <strong>تفهيم</strong>. نحن ممتنون جقًا لانضمامك إلينا.</p>
+        <p>يتم إعداد تفهيم بعناية ليكون منصة مخصصة لتدبّر القرآن الكريم بوعي وتأمل — مكانًا يساعدك على التمهّل، وتعميق صلتك، والتفاعل مع معاني القرآن بأسلوب يسير وهادف.</p>
 
         <div style='background-color: $beige; padding: 20px; border-right: 4px solid $yellow; margin: 25px 0;'>
-            <h3 style='margin-top:0; color: $purple; font-family: $fontFamily;'>بصفتك عضواً في قائمة الانتظار، ستحصل على:</h3>
+            <h3 style='margin-top:0; color: $purple; font-family: $fontFamily;'>بصفتك من أوائل المهتمين بمنصتنا، ستحصل/ين على:</h3>
             <ul style='padding-right: 20px; margin-bottom: 0;'>
                 <li>وصول مبكر حصري عند الإطلاق.</li>
-                <li>تحديثات خاصة بالميزات الجديدة والتأملات.</li>
-                <li>فرصة للمساهمة برأيك في تطوير المنصة.</li>
+                <li>تحديثات شخصية حول التدبرات والميزات الجديدة..</li>
+                <li>فرصة مباشرى للمساهمة في تشكيل نمو تفهيم وتطوره..</li>
             </ul>
         </div>
 
-        <p>سنكون على تواصل قريبًا بإذن الله.</p>
+        <p>سنتواصل معك قريبًا، إن شاء الله.</p>
         <p>جزاك الله خيرًا،<br><strong>فريق تفهيم</strong></p>
     ";
 } else {
@@ -228,13 +229,13 @@ try {
 
     $mail->setFrom('hello@tafheem.io', 'Tafheem');
     $mail->addAddress($email, $firstName);
-$mail->isHTML(true);
-$mail->Subject = $subject;
-$mail->Body    = $htmlBody;
-$mail->AltBody = strip_tags($message); // Plain text version for old clients
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body    = $htmlBody;
+    $mail->AltBody = strip_tags($message); // Plain text version for old clients
 
-$mail->send();
-}catch (Exception $e) {
+    $mail->send();
+} catch (Exception $e) {
     echo json_encode(["message" => "Mailer Error: " . $mail->ErrorInfo]);
     exit();
 }
