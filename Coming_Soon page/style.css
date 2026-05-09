@@ -206,7 +206,7 @@ p {
 }
 .intro_top p {
   font-size: 0.9rem;
-  color: rgb(112 51 76 / 70%);
+  color: rgb(112 51 76 / 80%);
   margin: 0;
   max-width: 29rem;
   line-height: 1.5;
@@ -230,7 +230,7 @@ p {
 }
 .intro_expect p {
   font-size: 0.9rem;
-  color: rgb(112 51 76 / 70%);
+  color: rgb(112 51 76 / 80%);
   margin: 0;
 }
 .intro_expect h2 {
@@ -357,6 +357,11 @@ footer {
   font-family: Amiri;
   font-style: normal;
   font-size: 11pt;
+}
+.links span {
+  padding-left: 2px;
+  position: relative;
+  top: 1px;
 }
 .links svg {
   width: 1rem;
@@ -559,9 +564,7 @@ footer {
     margin-bottom: 0;
     gap: 5rem;
   }
-  .page {
-    gap: 29px;
-  }
+
   .intro_top h1 {
     font-family: Amiri;
     line-height: 1.4;
@@ -602,6 +605,12 @@ footer {
   header .language {
     font-family: Inter;
   }
+  .links span {
+    padding-left: unset;
+  }
+  .links {
+    gap: 10px;
+  }
 }
 @media (max-width: 850px) {
   .signup {
@@ -613,7 +622,7 @@ footer {
     }
   }
 }
-@media (max-width: 705px) {
+@media (max-width: 715px) {
   .page {
     gap: 1rem;
   }
@@ -621,9 +630,13 @@ footer {
   header {
     flex-direction: column;
     justify-content: center;
-    gap: 2rem;
+    gap: 10px;
     height: unset;
-    padding: 3rem 0rem;
+    padding: 0;
+  }
+
+  header .logo {
+    margin: 2px auto;
   }
   .header-info {
     display: flex;
@@ -657,41 +670,7 @@ footer {
   .header-info span {
     font-size: 13pt;
   }
-  .language_mobile {
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    width: fit-content;
-    color: #e4b819;
-    top: 507px;
-    right: 0px;
-  }
 
-  .language_mobile a {
-    letter-spacing: normal;
-    font-style: normal;
-    text-decoration: none;
-    word-spacing: normal;
-    color: #e4b819;
-    font-size: 1rem;
-    border-radius: 0;
-    padding: 0.8rem;
-    padding-left: 1rem;
-  }
-  .language_mobile .en_mobile {
-    background-color: #83596b;
-    width: fit-content;
-    border-top-left-radius: 10px;
-    color: #e4b819;
-    box-shadow: 0px 0px 6px rgb(75, 75, 75);
-  }
-  .language_mobile .ar_mobile {
-    background-color: #70334c;
-    width: fit-content;
-    border-bottom-left-radius: 10px;
-    color: #83596b;
-    box-shadow: 0px 0px 6px rgb(75, 75, 75);
-  }
   main {
     flex-direction: column;
     justify-content: center;
@@ -765,10 +744,7 @@ footer {
     font-size: 0.8rem;
     gap: 9px;
   }
-  .instagram {
-    height: unset;
-    font-size: 0.9rem;
-  }
+
   .links {
     font-size: 13pt;
     gap: 13px;
@@ -778,10 +754,19 @@ footer {
     width: 20px;
     height: 20px;
   }
-  [dir="rtl"] {
+  .instagram {
+    height: unset;
+    font-size: 0.9rem;
+  }
+  .instagram svg {
+    width: 24px;
+    height: 24px;
+  }
+  .pinterest svg {
+    transform: scale(1.2);
   }
   [dir="rtl"] {
-    /* Edits for arabic phone */
+    /* Edits for arabic tablet */
     header div {
       display: flex;
       flex-direction: column;
@@ -792,12 +777,14 @@ footer {
     }
     header .language {
       font-size: 12pt;
+      margin-bottom: 5px;
     }
     header .logo {
       font-size: 2.2rem;
+      margin-right: auto;
     }
     header .tagline {
-      font-size: 1.1rem;
+      font-size: 1.3rem;
     }
     .intro {
       max-width: unset;
@@ -814,11 +801,14 @@ footer {
       gap: 2rem;
     }
     .intro_top p {
-      font-size: 13.5pt;
+      font-size: 14pt;
+      color: rgb(112 51 76 / 85%);
     }
     .intro_expect p {
-      font-size: 13pt;
+      font-size: 14pt;
+      color: rgb(112 51 76 / 85%);
     }
+
     .intro_expect h3 {
       font-size: 15pt;
     }
@@ -830,12 +820,9 @@ footer {
     }
   }
 }
-@media (max-width: 450px) {
+@media (max-width: 460px) {
   .page {
     gap: 0rem;
-  }
-  .language_mobile {
-    top: 507px;
   }
   .page p,
   .signup button {
@@ -854,33 +841,35 @@ footer {
     gap: 0;
     padding: 0.75rem;
     padding-top: 0;
+    padding-bottom: 0;
     align-items: start;
     justify-items: start;
   }
   header .logo {
     grid-area: logo;
     margin-right: unset;
-    font-size: 2.2rem;
+    font-size: 2rem;
     margin: 0;
     justify-self: start;
+  }
+  .yellow {
+    top: -4px;
   }
   .language {
     grid-area: language;
     justify-self: end;
     width: 85px;
     height: 38px;
-    margin-right: 0.5rem;
-    margin-top: 10px;
+    margin-top: 8px;
   }
   header .tagline {
-    grid-area: tagline;
+    /* grid-area: tagline;
     font-size: 1rem;
     margin-right: 0;
-
-    justify-self: start; /* anchor element to the left */
-    width: 100%; /* make it span full column width */
-
-    text-align: start; /* center the text inside */
+    justify-self: start; 
+    width: 100%; 
+    text-align: start;  */
+    display: none;
   }
   header div {
     letter-spacing: 0.2rem;
@@ -910,22 +899,41 @@ footer {
   footer {
     margin-top: 20px;
   }
-  .instagram {
-    width: 24px;
+  .links span {
+    font-size: 1.2rem;
   }
+  .links svg {
+    width: 25px;
+    height: 25px;
+  }
+  .links .instagram svg {
+    width: 28px;
+    height: 28px;
+  }
+  /* Mobile Arabic Edits */
 
   [dir="rtl"] {
+    header {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+    main {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .intro_top h1 {
+      font-size: 2rem;
+    }
+    .intro_top p {
+      color: rgb(112 51 76 / 85%);
+    }
+    .intro_expect p {
+      color: rgb(112 51 76 / 85%);
+    }
     header div {
       flex-direction: row;
     }
-    .en_mobile {
-      background-color: #70334c;
-      color: #83596b;
-    }
-    .ar_mobile {
-      background-color: #83596b;
-      color: #e4b819;
-    }
+
     header div {
       font-size: 1.7rem;
     }
@@ -938,11 +946,11 @@ footer {
     header .tagline {
       font-size: 1.4rem;
       /* word-spacing: 0.8rem; */
+      display: none;
     }
-  }
-
-  .language_mobile {
-    display: none;
+    .signup h2 {
+      font-size: 1.5rem;
+    }
   }
 }
 @media (hover: hover) {
