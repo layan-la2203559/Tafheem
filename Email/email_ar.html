@@ -181,9 +181,11 @@
     .footer {
       background-color: var(--primary-maroon);
       padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    }
+
+    .footer table {
+      width: 100%;
+      border-collapse: collapse;
     }
 
     .footer a {
@@ -193,24 +195,20 @@
       letter-spacing: 0.5px;
     }
 
-    .social-icons {
-      display: flex;
-      gap: 15px;
-    }
-
     /* Simple circular placeholders for icons */
     .social-icon {
       width: 24px;
       height: 24px;
+      line-height: 22px;
       border: 1px solid var(--gold);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
+      text-align: center;
       color: var(--gold);
       font-size: 0.7rem;
       text-decoration: none;
       transition: 0.3s;
+      margin-right: 10px;
     }
 
     .social-icon:hover {
@@ -251,7 +249,7 @@
     <main class="content" dir="rtl" style="text-align: right;">
       <div class="greeting">
         السلام عليكم ورحمة الله وبركاته،
-        <span class="highlight-name">فائزة.</span>
+        <span class="highlight-name">{{NAME}}.</span>
       </div>
 
       <p>شكرًا لانضمامك إلى قائمة الانتظار في "تفهيم". نحن ممتنون حقًا لوجودك معنا.</p>
@@ -288,11 +286,17 @@
     </main>
 
     <footer class="footer">
-      <a href="www.tafheem.io" target="_blank">www.tafheem.io</a>
-      <div class="social-icons">
-        <a href="#" class="social-icon">P</a>
-        <a href="#" class="social-icon">IG</a>
-      </div>
+      <table cellpadding="0" cellspacing="0" border="0" dir="rtl">
+        <tr>
+          <td align="right" valign="middle">
+            <a href="www.tafheem.io" target="_blank">www.tafheem.io</a>
+          </td>
+          <td align="left" valign="middle">
+            <a href="#" class="social-icon">P</a>
+            <a href="#" class="social-icon">IG</a>
+          </td>
+        </tr>
+      </table>
     </footer>
   </div>
 

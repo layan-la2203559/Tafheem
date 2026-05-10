@@ -129,13 +129,16 @@ if ($apiSecret) {
             stream_context_create($subscribeOpts)
         );
     }
-    // Kit failure is silent — the user still gets their welcome email below
 }
 
 /* ======================
     SEND EMAIL (SMTP)
 ====================== */
 
+/* ======================
+    OLD EMAIL DESIGN (commented out — replaced by HTML templates in /Email folder)
+====================== */
+/*
 // Brand Colors
 $purple   = "#70334c";
 $yellow   = "#dbbc47";
@@ -214,6 +217,21 @@ $htmlBody = "
     </table>
 </div>
 ";
+*/
+
+// NEW: Load email template from /Email folder based on language
+if ($lang === "ar") {
+    $subject = "مرحباً بك في قائمة انتظار تفهيم، $firstName";
+    // $templateFile = __DIR__ . '/../Email/email_ar.html'; // OLD Arabic template — replaced by email_new_ar.html
+    $templateFile = __DIR__ . '/../Email/email_new_ar.html';
+} else {
+    $subject = "Welcome to the Tafheem Waitlist, $firstName";
+    // $templateFile = __DIR__ . '/../Email/email.html'; // OLD English template — replaced by email_new.html
+    $templateFile = __DIR__ . '/../Email/email_new.html';
+}
+
+$htmlBody = file_get_contents($templateFile);
+$htmlBody = str_replace('{{NAME}}', $firstName, $htmlBody);
 
 $mail = new PHPMailer(true);
 $mail->CharSet = 'UTF-8';
@@ -229,6 +247,7 @@ try {
 
     $mail->setFrom('hello@tafheem.io', 'Tafheem');
     $mail->addAddress($email, $firstName);
+    $mail->addEmbeddedImage(__DIR__ . '/../Email/tafheem_logo.png', 'tafheem_logo');
     $mail->isHTML(true);
     $mail->Subject = $subject;
     $mail->Body    = $htmlBody;
