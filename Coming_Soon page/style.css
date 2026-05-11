@@ -106,7 +106,7 @@ header .language a {
 }
 .en,
 .ar {
-  padding: 4px 7px;
+  padding: 3px;
   flex: 1;
   border-radius: 5px;
   transition: background-color 0.2s ease;
@@ -622,9 +622,15 @@ footer {
     }
   }
 }
-@media (max-width: 715px) {
+@media (max-width: 745px) {
   .page {
     gap: 1rem;
+  }
+  /* Unset max width for tablet view */
+  .intro h1,
+  .intro p,
+  .intro_expect div {
+    max-width: unset;
   }
 
   header {
@@ -632,11 +638,13 @@ footer {
     justify-content: center;
     gap: 10px;
     height: unset;
-    padding: 0;
+    padding: 0 0 10px 0;
   }
 
   header .logo {
     margin: 2px auto;
+    font-size: 2.2rem;
+    font-weight: normal;
   }
   .header-info {
     display: flex;
@@ -654,10 +662,6 @@ footer {
     width: 130px;
     height: 50px;
     font-size: 12pt;
-  }
-  header .logo {
-    font-size: 2.8rem;
-    font-weight: normal;
   }
   .yellow {
     top: unset;
@@ -834,34 +838,51 @@ footer {
 
   header {
     display: grid;
-    grid-template-areas:
+    grid-template-areas: "logo language";
+    /* grid-template-areas:
       "logo language"
-      "tagline tagline";
+      "tagline tagline"; */
     grid-template-columns: 1fr min-content;
     gap: 0;
     padding: 0.75rem;
     padding-top: 0;
     padding-bottom: 0;
-    align-items: start;
+    align-items: center;
     justify-items: start;
   }
+
   header .logo {
     grid-area: logo;
     margin-right: unset;
-    font-size: 2rem;
+    font-size: 1.4rem;
     margin: 0;
-    justify-self: start;
+    /* justify-self: start; */
+    align-self: center;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 2px;
   }
   .yellow {
-    top: -4px;
+    /* top: -4px; */
   }
+  /* smaller logo and arabic button */
   .language {
     grid-area: language;
     justify-self: end;
-    width: 85px;
-    height: 38px;
-    margin-top: 8px;
+    width: 69px;
+    height: 25px;
+    /* margin-top: 8px; */
+    font-size: 10pt;
   }
+  header {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    height: 3rem;
+    align-items: center;
+  }
+
   header .tagline {
     /* grid-area: tagline;
     font-size: 1rem;
@@ -871,14 +892,25 @@ footer {
     text-align: start;  */
     display: none;
   }
+
   header div {
     letter-spacing: 0.2rem;
   }
+
+  .intro_top {
+    margin-top: 1.8rem;
+  }
   .intro_top h1 {
-    font-size: 1.75rem;
+    font-size: 1.9rem;
   }
   .intro {
     gap: 5px;
+  }
+  .intro_expect h2 {
+    font-size: 1.4rem;
+  }
+  .intro_expect h3 {
+    font-size: 1.1rem;
   }
   .main_gradient {
     margin-top: 8px;
@@ -887,36 +919,63 @@ footer {
   }
 
   main {
-    padding: 0 0.75rem;
+    padding: 0 1.7rem;
   }
 
-  h2,
-  .signup h2 {
+  h2 {
     font-size: 1.25rem;
     font-weight: normal;
+  }
+  .signup h2 {
+    font-size: 1.8rem;
   }
 
   footer {
     margin-top: 20px;
   }
+
   .links span {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .links svg {
-    width: 25px;
-    height: 25px;
+    width: 18px;
+    height: 18px;
   }
   .links .instagram svg {
-    width: 28px;
-    height: 28px;
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
   }
   /* Mobile Arabic Edits */
 
   [dir="rtl"] {
     header {
-      padding-left: 4px;
-      padding-right: 4px;
+      align-items: center;
+      padding: 0 1.5rem;
     }
+    header div {
+      flex-direction: row;
+    }
+    header .logo {
+      font-size: 1.4rem;
+      margin-right: unset;
+    }
+
+    header .language {
+      font-size: 10pt;
+      margin: 0;
+    }
+    header .tagline {
+      font-size: 1.4rem;
+      /* word-spacing: 0.8rem; */
+      display: none;
+    }
+    header .yellow {
+      margin: 0;
+      margin-left: 3px;
+      top: 0;
+    }
+
     main {
       padding-left: 12px;
       padding-right: 12px;
@@ -930,26 +989,7 @@ footer {
     .intro_expect p {
       color: rgb(112 51 76 / 85%);
     }
-    header div {
-      flex-direction: row;
-    }
 
-    header div {
-      font-size: 1.7rem;
-    }
-    header .language {
-      font-size: 12pt;
-      margin-top: 11px;
-    }
-    header .logo {
-      font-size: 2.2rem;
-      margin-right: unset;
-    }
-    header .tagline {
-      font-size: 1.4rem;
-      /* word-spacing: 0.8rem; */
-      display: none;
-    }
     .signup h2 {
       font-size: 1.5rem;
     }
