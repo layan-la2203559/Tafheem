@@ -50,7 +50,7 @@ export async function getWord(
   const { data, error } = await db
     .from("quran_words")
     .select(
-      "word_position, arabic_text, root, part_of_speech, morphology, mufradat_meaning, lanes_meaning"
+      "word_position, arabic_text, transliteration, translation_en, root, part_of_speech, morphology, mufradat_meaning, lanes_meaning"
     )
     .eq("surah_number", surah)
     .eq("ayah_number", ayah)
@@ -61,6 +61,8 @@ export async function getWord(
   return {
     position,
     arabic_text: data?.arabic_text ?? null,
+    transliteration: data?.transliteration ?? null,
+    translation_en: data?.translation_en ?? null,
     root: data?.root ?? null,
     part_of_speech: data?.part_of_speech ?? null,
     tabs: {

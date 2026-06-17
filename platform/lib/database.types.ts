@@ -240,6 +240,8 @@ export type Database = {
           part_of_speech: string | null
           root: string | null
           surah_number: number
+          translation_en: string | null
+          transliteration: string | null
           word_position: number
         }
         Insert: {
@@ -252,6 +254,8 @@ export type Database = {
           part_of_speech?: string | null
           root?: string | null
           surah_number: number
+          translation_en?: string | null
+          transliteration?: string | null
           word_position: number
         }
         Update: {
@@ -264,6 +268,8 @@ export type Database = {
           part_of_speech?: string | null
           root?: string | null
           surah_number?: number
+          translation_en?: string | null
+          transliteration?: string | null
           word_position?: number
         }
         Relationships: []

@@ -91,6 +91,8 @@ export interface QuranWord {
 export interface WordTabs {
   position: number;
   arabic_text: string | null;
+  transliteration: string | null;
+  translation_en: string | null;
   root: string | null;
   part_of_speech: string | null;
   tabs: {

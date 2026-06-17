@@ -3,22 +3,23 @@
 <head><meta charset="utf-8"><title>Tafheem · Register</title></head>
 <body>
 <script src="common.js"></script><script>nav();</script>
-<h1>Register</h1>
+<h1 data-en="Register" data-ar="إنشاء حساب">Register</h1>
 <form id="f">
-  <p>Display name: <input id="display_name" required></p>
-  <p>Email: <input id="email" type="email" required></p>
-  <p>Password (min 8): <input id="password" type="password" required></p>
-  <p>Gender:
+  <p><span data-en="Display name:" data-ar="الاسم الظاهر:">Display name:</span> <input id="display_name" required></p>
+  <p><span data-en="Email:" data-ar="البريد الإلكتروني:">Email:</span> <input id="email" type="email" required></p>
+  <p><span data-en="Password (min 8):" data-ar="كلمة المرور (8 على الأقل):">Password (min 8):</span> <input id="password" type="password" required></p>
+  <p><span data-en="Gender:" data-ar="الجنس:">Gender:</span>
     <select id="gender"><option value="male">male</option><option value="female">female</option></select>
   </p>
-  <p>Country: <input id="country" required></p>
-  <p>Language:
+  <p><span data-en="Country:" data-ar="الدولة:">Country:</span> <select id="country" required></select></p>
+  <p><span data-en="Language:" data-ar="اللغة:">Language:</span>
     <select id="language"><option value="en">English</option><option value="ar">Arabic</option></select>
   </p>
-  <p><button type="submit">Register</button></p>
+  <p><button type="submit" data-en="Register" data-ar="تسجيل">Register</button></p>
 </form>
 <pre id="out"></pre>
 <script>
+populateCountries("country", "-- select country --");
 document.getElementById("f").addEventListener("submit", async (e) => {
   e.preventDefault();
   const payload = {

@@ -6,7 +6,7 @@
 <h1>My Dashboard</h1>
 <button id="load">Reload</button>
 <h2>Private reflections</h2>
-<pre id="private"></pre>
+<div id="private"></div>
 <h2>Public reflections</h2>
 <pre id="public"></pre>
 <h2>Bookmarks</h2>
@@ -18,8 +18,22 @@ document.getElementById("load").addEventListener("click", load);
 load();
 async function load() {
   const d = await api("/api/dashboard");
+  const priv = document.getElementById("private");
+  priv.innerHTML = "";
   if (d.ok) {
-    show("private", d.body.data.private_reflections);
+    (d.body.data.private_reflections || []).forEach((r) => {
+      const div = document.createElement("div");
+      div.innerHTML =
+        "<b>" + r.surah_number + ":" + r.ayah_number + "</b> — " +
+        (r.body || "") + " <em>tags: " + JSON.stringify(r.tags) + "</em> ";
+      const btn = document.createElement("button");
+      btn.textContent = "Make public";
+      btn.addEventListener("click", () => publish(r.id));
+      div.appendChild(btn);
+      div.appendChild(document.createElement("hr"));
+      priv.appendChild(div);
+    });
+    if (!(d.body.data.private_reflections || []).length) priv.textContent = "(none)";
     show("public", d.body.data.public_reflections);
     show("bookmarks", d.body.data.bookmarks);
   } else {
@@ -27,6 +41,15 @@ async function load() {
   }
   const p = await api("/api/profile/me");
   show("profile", p.ok ? p.body.data : { status: p.status, ...p.body });
+}
+
+async function publish(id) {
+  const r = await api("/api/reflections/" + id + "/publish", { method: "POST" });
+  if (!r.ok) {
+    // e.g. flagged by the pre-post keyword audit — surfaced to the user.
+    alert((r.body && r.body.error && r.body.error.message) || "Publish failed");
+  }
+  load();
 }
 </script>
 </body>

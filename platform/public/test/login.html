@@ -3,11 +3,11 @@
 <head><meta charset="utf-8"><title>Tafheem · Login</title></head>
 <body>
 <script src="common.js"></script><script>nav();</script>
-<h1>Login</h1>
+<h1 data-en="Login" data-ar="تسجيل الدخول">Login</h1>
 <form id="f">
-  <p>Email: <input id="email" type="email" required></p>
-  <p>Password: <input id="password" type="password" required></p>
-  <p><button type="submit">Login</button> <button type="button" id="logout">Logout</button></p>
+  <p><span data-en="Email:" data-ar="البريد الإلكتروني:">Email:</span> <input id="email" type="email" required></p>
+  <p><span data-en="Password:" data-ar="كلمة المرور:">Password:</span> <input id="password" type="password" required></p>
+  <p><button type="submit" data-en="Login" data-ar="دخول">Login</button> <button type="button" id="logout" data-en="Logout" data-ar="خروج">Logout</button></p>
 </form>
 <p>Stored token: <span id="tok"></span></p>
 <pre id="out"></pre>
@@ -22,6 +22,9 @@ document.getElementById("f").addEventListener("submit", async (e) => {
   if (r.ok && r.body.data && r.body.data.access_token) {
     setToken(r.body.data.access_token);
     document.getElementById("tok").textContent = "(present)";
+    show("out", "Logged in — redirecting to dashboard…");
+    goTo("dashboard.html");
+    return;
   }
   show("out", { status: r.status, ...r.body });
 });
