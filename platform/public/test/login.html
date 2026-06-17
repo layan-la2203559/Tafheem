@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Tafheem · Login</title></head>
+<body>
+<script src="common.js"></script><script>nav();</script>
+<h1>Login</h1>
+<form id="f">
+  <p>Email: <input id="email" type="email" required></p>
+  <p>Password: <input id="password" type="password" required></p>
+  <p><button type="submit">Login</button> <button type="button" id="logout">Logout</button></p>
+</form>
+<p>Stored token: <span id="tok"></span></p>
+<pre id="out"></pre>
+<script>
+document.getElementById("tok").textContent = getToken() ? "(present)" : "(none)";
+document.getElementById("f").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const r = await api("/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email: email.value, password: password.value }),
+  });
+  if (r.ok && r.body.data && r.body.data.access_token) {
+    setToken(r.body.data.access_token);
+    document.getElementById("tok").textContent = "(present)";
+  }
+  show("out", { status: r.status, ...r.body });
+});
+document.getElementById("logout").addEventListener("click", async () => {
+  await api("/api/auth/logout", { method: "POST" });
+  clearToken();
+  document.getElementById("tok").textContent = "(none)";
+  show("out", "Logged out");
+});
+</script>
+</body>
+</html>

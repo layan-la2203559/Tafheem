@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Tafheem · Register</title></head>
+<body>
+<script src="common.js"></script><script>nav();</script>
+<h1>Register</h1>
+<form id="f">
+  <p>Display name: <input id="display_name" required></p>
+  <p>Email: <input id="email" type="email" required></p>
+  <p>Password (min 8): <input id="password" type="password" required></p>
+  <p>Gender:
+    <select id="gender"><option value="male">male</option><option value="female">female</option></select>
+  </p>
+  <p>Country: <input id="country" required></p>
+  <p><button type="submit">Register</button></p>
+</form>
+<pre id="out"></pre>
+<script>
+document.getElementById("f").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const payload = {
+    display_name: display_name.value,
+    email: email.value,
+    password: password.value,
+    gender: gender.value,
+    country: country.value,
+  };
+  const r = await api("/api/auth/register", { method: "POST", body: JSON.stringify(payload) });
+  show("out", { status: r.status, ...r.body });
+});
+</script>
+</body>
+</html>

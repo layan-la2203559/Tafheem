@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Tafheem · Dashboard</title></head>
+<body>
+<script src="common.js"></script><script>nav();</script>
+<h1>My Dashboard</h1>
+<button id="load">Reload</button>
+<h2>Private reflections</h2>
+<pre id="private"></pre>
+<h2>Public reflections</h2>
+<pre id="public"></pre>
+<h2>Bookmarks</h2>
+<pre id="bookmarks"></pre>
+<h2>Profile</h2>
+<pre id="profile"></pre>
+<script>
+document.getElementById("load").addEventListener("click", load);
+load();
+async function load() {
+  const d = await api("/api/dashboard");
+  if (d.ok) {
+    show("private", d.body.data.private_reflections);
+    show("public", d.body.data.public_reflections);
+    show("bookmarks", d.body.data.bookmarks);
+  } else {
+    show("private", { status: d.status, ...d.body });
+  }
+  const p = await api("/api/profile/me");
+  show("profile", p.ok ? p.body.data : { status: p.status, ...p.body });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Tafheem · Reader</title></head>
+<body>
+<script src="common.js"></script><script>nav();</script>
+<h1>Quran Reader</h1>
+<p>
+  Surah: <select id="surah"></select>
+  <button id="load">Load verses</button>
+</p>
+<div id="verses"></div>
+<h3>Word pop-up (raw JSON)</h3>
+<pre id="word">tap a word above</pre>
+
+<script>
+// Populate surah dropdown from the API (works pre-seed; static list).
+(async () => {
+  const r = await api("/api/quran/surahs");
+  const sel = document.getElementById("surah");
+  (r.body.data || []).forEach((s) => {
+    const o = document.createElement("option");
+    o.value = s.surah_number;
+    o.textContent = s.surah_number + " · " + s.name + " (" + s.ayah_count + ")";
+    sel.appendChild(o);
+  });
+})();
+
+document.getElementById("load").addEventListener("click", async () => {
+  const surah = document.getElementById("surah").value;
+  const r = await api("/api/quran/surah/" + surah);
+  const wrap = document.getElementById("verses");
+  wrap.innerHTML = "";
+  if (!r.ok) { wrap.textContent = JSON.stringify(r.body); return; }
+  (r.body.data || []).forEach((v) => {
+    const div = document.createElement("div");
+    const head = document.createElement("p");
+    head.innerHTML = "<b>" + v.surah_number + ":" + v.ayah_number + "</b> — " +
+      (v.translation_en || "(no translation)");
+    div.appendChild(head);
+    // Split arabic text into words; each is a tappable button (position = idx+1).
+    const words = (v.arabic_text || "").split(/\s+/).filter(Boolean);
+    words.forEach((w, i) => {
+      const b = document.createElement("button");
+      b.textContent = w;
+      b.style.margin = "2px";
+      b.addEventListener("click", async () => {
+        const wr = await api("/api/quran/word/" + v.surah_number + "/" + v.ayah_number + "/" + (i + 1));
+        show("word", { status: wr.status, ...wr.body });
+      });
+      div.appendChild(b);
+    });
+    div.appendChild(document.createElement("hr"));
+    wrap.appendChild(div);
+  });
+});
+</script>
+</body>
+</html>

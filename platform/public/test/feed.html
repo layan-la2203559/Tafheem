@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Tafheem · Feed</title></head>
+<body>
+<script src="common.js"></script><script>nav();</script>
+<h1>Community Feed (public reflections)</h1>
+<p>
+  Filter surah: <input id="surah" type="number" min="1" max="114">
+  ayah: <input id="ayah" type="number" min="1">
+  tag: <input id="tag">
+  <button id="load">Load</button>
+</p>
+<div id="list"></div>
+<pre id="out"></pre>
+<script>
+document.getElementById("load").addEventListener("click", load);
+load();
+
+async function load() {
+  const params = new URLSearchParams();
+  if (surah.value) params.set("surah", surah.value);
+  if (ayah.value) params.set("ayah", ayah.value);
+  if (tag.value) params.set("tag", tag.value);
+  const r = await api("/api/reflections/public?" + params.toString());
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  if (!r.ok) { show("out", { status: r.status, ...r.body }); return; }
+  (r.body.data || []).forEach((ref) => {
+    const div = document.createElement("div");
+    div.innerHTML =
+      "<p><b>" + ref.surah_number + ":" + ref.ayah_number + "</b> by " +
+      ref.display_name + (ref.is_new ? " <em>[new]</em>" : "") +
+      "<br>" + (ref.published_body || "") +
+      "<br>tags: " + JSON.stringify(ref.tags) + "</p>";
+    const rep = document.createElement("button");
+    rep.textContent = "Report";
+    rep.addEventListener("click", () => report(ref));
+    div.appendChild(rep);
+    div.appendChild(document.createElement("hr"));
+    list.appendChild(div);
+  });
+}
+
+async function report(ref) {
+  const reason = prompt(
+    "Reason: misuse | false_info | opinion_as_verdict | harassment | other",
+    "misuse"
+  );
+  if (!reason) return;
+  const r = await api("/api/reports", {
+    method: "POST",
+    body: JSON.stringify({ reported_reflection_id: ref.id, reported_user_id: ref.user_id, reason }),
+  });
+  show("out", { status: r.status, ...r.body });
+}
+</script>
+</body>
+</html>
