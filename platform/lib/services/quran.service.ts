@@ -6,6 +6,37 @@ import { Errors } from "@/lib/errors";
 
 type DB = SupabaseClient<Database>;
 
+const WORD_COLS =
+  "word_position, arabic_text, transliteration, translation_en, root, part_of_speech, morphology, mufradat_meaning, lanes_meaning";
+
+function mapWordRow(row: any): WordTabs {
+  return {
+    position: row.word_position,
+    arabic_text: row.arabic_text ?? null,
+    transliteration: row.transliteration ?? null,
+    translation_en: row.translation_en ?? null,
+    root: row.root ?? null,
+    part_of_speech: row.part_of_speech ?? null,
+    tabs: {
+      morphology: row.morphology ?? null,
+      mufradat: row.mufradat_meaning ?? null,
+      lanes: row.lanes_meaning ?? null,
+    },
+  };
+}
+
+function emptyWord(position: number): WordTabs {
+  return {
+    position,
+    arabic_text: null,
+    transliteration: null,
+    translation_en: null,
+    root: null,
+    part_of_speech: null,
+    tabs: { morphology: null, mufradat: null, lanes: null },
+  };
+}
+
 /** Static surah list (works before quran_verses is seeded). */
 export function listSurahs() {
   return SURAHS;
@@ -49,28 +80,36 @@ export async function getWord(
 ): Promise<WordTabs> {
   const { data, error } = await db
     .from("quran_words")
-    .select(
-      "word_position, arabic_text, transliteration, translation_en, root, part_of_speech, morphology, mufradat_meaning, lanes_meaning"
-    )
+    .select(WORD_COLS)
     .eq("surah_number", surah)
     .eq("ayah_number", ayah)
     .eq("word_position", position)
     .maybeSingle();
   if (error) throw Errors.internal("Failed to load word data");
 
-  return {
-    position,
-    arabic_text: data?.arabic_text ?? null,
-    transliteration: data?.transliteration ?? null,
-    translation_en: data?.translation_en ?? null,
-    root: data?.root ?? null,
-    part_of_speech: data?.part_of_speech ?? null,
-    tabs: {
-      morphology: data?.morphology ?? null,
-      mufradat: data?.mufradat_meaning ?? null,
-      lanes: data?.lanes_meaning ?? null,
-    },
-  };
+  return data ? mapWordRow(data) : emptyWord(position);
+}
+
+/**
+ * All words of a surah, in order, grouped by ayah. This is the correct source
+ * for rendering tappable words — positions come straight from the word-by-word
+ * data, so waqf (pause) marks in the verse text never misalign them.
+ */
+export async function getSurahWords(
+  db: DB,
+  surah: number
+): Promise<(WordTabs & { ayah_number: number })[]> {
+  const { data, error } = await db
+    .from("quran_words")
+    .select(`ayah_number, ${WORD_COLS}`)
+    .eq("surah_number", surah)
+    .order("ayah_number", { ascending: true })
+    .order("word_position", { ascending: true });
+  if (error) throw Errors.internal("Failed to load surah words");
+  return (data ?? []).map((row: any) => ({
+    ayah_number: row.ayah_number,
+    ...mapWordRow(row),
+  }));
 }
 
 /** All verses that contain a word sharing the given root. */

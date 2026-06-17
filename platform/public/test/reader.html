@@ -27,26 +27,44 @@
 
 document.getElementById("load").addEventListener("click", async () => {
   const surah = document.getElementById("surah").value;
-  const r = await api("/api/quran/surah/" + surah);
   const wrap = document.getElementById("verses");
+  wrap.innerHTML = "loading…";
+
+  // Fetch verses (for translation line) AND words (for tappable tokens).
+  // Words come straight from the word-by-word data, so positions always match
+  // and waqf/pause marks in the verse text never misalign them.
+  const [vr, wr] = await Promise.all([
+    api("/api/quran/surah/" + surah),
+    api("/api/quran/surah/" + surah + "/words"),
+  ]);
   wrap.innerHTML = "";
-  if (!r.ok) { wrap.textContent = JSON.stringify(r.body); return; }
-  (r.body.data || []).forEach((v) => {
+  if (!vr.ok) { wrap.textContent = JSON.stringify(vr.body); return; }
+
+  // Group words by ayah number.
+  const wordsByAyah = {};
+  (wr.body.data || []).forEach((w) => {
+    (wordsByAyah[w.ayah_number] = wordsByAyah[w.ayah_number] || []).push(w);
+  });
+
+  (vr.body.data || []).forEach((v) => {
     const div = document.createElement("div");
     const head = document.createElement("p");
     head.innerHTML = "<b>" + v.surah_number + ":" + v.ayah_number + "</b> — " +
       (v.translation_en || "(no translation)");
     div.appendChild(head);
-    // Split arabic text into words; each is a tappable button (position = idx+1).
-    const words = (v.arabic_text || "").split(/\s+/).filter(Boolean);
-    words.forEach((w, i) => {
+
+    const words = wordsByAyah[v.ayah_number] || [];
+    if (!words.length) {
+      const note = document.createElement("em");
+      note.textContent = "(word data not loaded for this verse)";
+      div.appendChild(note);
+    }
+    words.forEach((w) => {
       const b = document.createElement("button");
-      b.textContent = w;
+      b.textContent = w.arabic_text || "؟";
       b.style.margin = "2px";
-      b.addEventListener("click", async () => {
-        const wr = await api("/api/quran/word/" + v.surah_number + "/" + v.ayah_number + "/" + (i + 1));
-        show("word", { status: wr.status, ...wr.body });
-      });
+      // Data is already loaded — show it directly, no extra request.
+      b.addEventListener("click", () => show("word", w));
       div.appendChild(b);
     });
     div.appendChild(document.createElement("hr"));
