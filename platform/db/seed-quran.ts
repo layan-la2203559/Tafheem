@@ -32,7 +32,7 @@ loadEnv();
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const SAHIH_INTERNATIONAL = 131;
+const SAHIH_INTERNATIONAL = 20; // Quran.com resource id for Saheeh International
 const TOTAL_SURAHS = 114;
 const REQUEST_DELAY_MS = 350; // be polite to the public API
 
@@ -50,7 +50,13 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function stripHtml(s: string): string {
-  return s.replace(/<[^>]*>/g, "").trim();
+  // Saheeh International text carries <sup foot_note=...>N</sup> markers — drop
+  // the whole footnote marker, then any remaining tags, then tidy whitespace.
+  return s
+    .replace(/<sup[^>]*>.*?<\/sup>/gi, "")
+    .replace(/<[^>]*>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 interface ApiVerse {

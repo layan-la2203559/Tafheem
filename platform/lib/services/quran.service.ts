@@ -99,17 +99,26 @@ export async function getSurahWords(
   db: DB,
   surah: number
 ): Promise<(WordTabs & { ayah_number: number })[]> {
-  const { data, error } = await db
-    .from("quran_words")
-    .select(`ayah_number, ${WORD_COLS}`)
-    .eq("surah_number", surah)
-    .order("ayah_number", { ascending: true })
-    .order("word_position", { ascending: true });
-  if (error) throw Errors.internal("Failed to load surah words");
-  return (data ?? []).map((row: any) => ({
-    ayah_number: row.ayah_number,
-    ...mapWordRow(row),
-  }));
+  // PostgREST caps a single response (~1000 rows). The longest surah has
+  // ~6,100 words, so page through with .range() until exhausted.
+  const PAGE = 1000;
+  const out: (WordTabs & { ayah_number: number })[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await db
+      .from("quran_words")
+      .select(`ayah_number, ${WORD_COLS}`)
+      .eq("surah_number", surah)
+      .order("ayah_number", { ascending: true })
+      .order("word_position", { ascending: true })
+      .range(from, from + PAGE - 1);
+    if (error) throw Errors.internal("Failed to load surah words");
+    const rows = data ?? [];
+    for (const row of rows as any[]) {
+      out.push({ ayah_number: row.ayah_number, ...mapWordRow(row) });
+    }
+    if (rows.length < PAGE) break;
+  }
+  return out;
 }
 
 /** All verses that contain a word sharing the given root. */
