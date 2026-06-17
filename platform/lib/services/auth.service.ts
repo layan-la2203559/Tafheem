@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createServiceClient } from "@/lib/supabase/server";
 import { mapAuthError, Errors } from "@/lib/errors";
+import { subscribeToKit } from "@/lib/services/kit.service";
 import type {
   registerSchema,
   loginSchema,
@@ -32,6 +33,12 @@ export async function registerUser(input: z.infer<typeof registerSchema>) {
     },
   });
   if (error) throw mapAuthError(error);
+
+  // Best-effort: tag the new subscriber in Kit by language. Never blocks or
+  // fails registration — mirrors the landing page's ConvertKit flow.
+  const firstName = input.display_name.split(" ")[0];
+  await subscribeToKit(input.email, firstName, input.language);
+
   // Do not return a session — email must be verified first.
 }
 

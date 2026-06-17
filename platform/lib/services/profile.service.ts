@@ -29,7 +29,7 @@ export async function updateProfile(
   userId: string,
   input: z.infer<typeof updateProfileSchema>
 ): Promise<Profile> {
-  const patch: Record<string, unknown> = {};
+  const patch: Database["public"]["Tables"]["profiles"]["Update"] = {};
   if (input.display_name !== undefined) patch.display_name = input.display_name;
   if (input.bio !== undefined) patch.bio = input.bio;
 

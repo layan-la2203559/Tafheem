@@ -12,6 +12,9 @@
     <select id="gender"><option value="male">male</option><option value="female">female</option></select>
   </p>
   <p>Country: <input id="country" required></p>
+  <p>Language:
+    <select id="language"><option value="en">English</option><option value="ar">Arabic</option></select>
+  </p>
   <p><button type="submit">Register</button></p>
 </form>
 <pre id="out"></pre>
@@ -24,6 +27,7 @@ document.getElementById("f").addEventListener("submit", async (e) => {
     password: password.value,
     gender: gender.value,
     country: country.value,
+    language: language.value,
   };
   const r = await api("/api/auth/register", { method: "POST", body: JSON.stringify(payload) });
   show("out", { status: r.status, ...r.body });

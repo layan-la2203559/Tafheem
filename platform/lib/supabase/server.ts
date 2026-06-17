@@ -18,7 +18,7 @@ function assertEnv(value: string | undefined, name: string): string {
  * Per-request SSR client wired to the Next.js cookie store. Honours RLS as the
  * signed-in user. Use this for anything that should run "as the user".
  */
-export function createSsrClient(): SupabaseClient<Database> {
+export function createSsrClient() {
   const cookieStore = cookies();
   return createServerClient<Database>(
     assertEnv(SUPABASE_URL, "NEXT_PUBLIC_SUPABASE_URL"),

@@ -12,6 +12,8 @@ export const registerSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters").max(72),
   gender: z.enum(["male", "female"]),
   country: z.string().trim().min(1, "Country is required").max(100),
+  // Language indicator — drives the Kit (ConvertKit) tag on signup.
+  language: z.enum(["en", "ar"]).default("en"),
 });
 
 export const loginSchema = z.object({

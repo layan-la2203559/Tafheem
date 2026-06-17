@@ -98,7 +98,7 @@ export async function updateReflection(
     throw Errors.badRequest("Published reflections cannot be edited");
   }
 
-  const patch: Record<string, unknown> = {};
+  const patch: Database["public"]["Tables"]["reflections"]["Update"] = {};
   if (input.body !== undefined) patch.body = input.body;
   if (input.tags !== undefined) patch.tags = input.tags;
 

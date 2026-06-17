@@ -18,7 +18,7 @@ type DB = SupabaseClient<Database>;
 
 // ---------- Queue -----------------------------------------------------------
 export async function getQueue(db: DB, status: "pending" | "reviewed") {
-  const statuses =
+  const statuses: Database["public"]["Enums"]["report_status"][] =
     status === "pending" ? ["pending"] : ["dismissed", "actioned"];
 
   const { data, error } = await db
