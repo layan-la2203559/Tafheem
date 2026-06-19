@@ -1,0 +1,155 @@
+/* Tafheem test pages — simple shared UI (brand: berry + gold). */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  --berry: #70334c;
+  --berry-dark: #5a2940;
+  --gold: #dbbc47;
+  --bg: #faf7f2;
+  --card: #ffffff;
+  --line: #e7ded3;
+  --text: #2e2630;
+  --muted: #8a7f86;
+  --danger: #b3261e;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--bg); }
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--text);
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--berry);
+  margin: 18px 0 10px;
+}
+h1 { font-size: 26px; }
+h2 { font-size: 20px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+h3 { font-size: 16px; }
+
+a { color: var(--berry); }
+
+/* ---------- header / nav ---------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  background: var(--berry);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(112, 51, 76, 0.18);
+}
+.app-header .brand {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+}
+.app-header .brand span { color: var(--gold); font-size: 13px; font-weight: 600; }
+.app-nav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.app-nav a {
+  color: #f3e9ee;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.app-nav a:hover { background: rgba(255, 255, 255, 0.12); }
+.app-nav a.active { background: var(--gold); color: var(--berry-dark); font-weight: 600; }
+.lang-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.lang-btn:hover { background: rgba(255, 255, 255, 0.12); }
+
+/* ---------- forms ---------- */
+input, select, textarea {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  min-width: 220px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--berry);
+  box-shadow: 0 0 0 3px rgba(112, 51, 76, 0.12);
+}
+textarea { width: 100%; max-width: 560px; }
+label, p { color: var(--text); }
+
+/* ---------- buttons ---------- */
+button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--berry);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+button:hover { background: var(--berry-dark); }
+button:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.6; }
+
+/* word/token buttons in the reader sit close together */
+#verses button {
+  background: #fbf6ee;
+  color: var(--berry);
+  border: 1px solid var(--line);
+  font-family: "Amiri", "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 4px 8px;
+}
+#verses button:hover { background: var(--gold); color: var(--berry-dark); }
+
+/* ---------- output / cards ---------- */
+pre {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  overflow-x: auto;
+  font-size: 13px;
+  color: #3b333d;
+}
+#verses > div, #list > div, #queue > div, #private > div, #keywords > div {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+hr { border: none; border-top: 1px solid var(--line); margin: 10px 0; }
+em { color: var(--muted); }
+
+/* spacing for stacked form rows */
+form p { margin: 10px 0; }

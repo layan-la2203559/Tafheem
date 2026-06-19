@@ -61,16 +61,32 @@ function applyLang() {
 window.addEventListener("DOMContentLoaded", applyLang);
 
 function nav() {
-  document.write(
-    '<p><button id="langToggle" type="button" onclick="toggleLang()">العربية</button> ' +
-      '[ <a href="register.html" data-en="register" data-ar="تسجيل">register</a> | ' +
-      '<a href="login.html" data-en="login" data-ar="دخول">login</a> | ' +
-      '<a href="reader.html" data-en="reader" data-ar="القارئ">reader</a> | ' +
-      '<a href="write.html" data-en="write" data-ar="كتابة">write</a> | ' +
-      '<a href="feed.html" data-en="feed" data-ar="المجتمع">feed</a> | ' +
-      '<a href="dashboard.html" data-en="dashboard" data-ar="لوحتي">dashboard</a> | ' +
-      '<a href="mod.html" data-en="mod" data-ar="الإشراف">mod</a> ]</p>'
-  );
+  const links = [
+    ["register.html", "register", "تسجيل"],
+    ["login.html", "login", "دخول"],
+    ["reader.html", "reader", "القارئ"],
+    ["write.html", "write", "كتابة"],
+    ["feed.html", "feed", "المجتمع"],
+    ["dashboard.html", "dashboard", "لوحتي"],
+    ["mod.html", "mod", "الإشراف"],
+  ];
+  const here = (location.pathname.split("/").pop() || "register.html").toLowerCase();
+
+  let html =
+    '<header class="app-header">' +
+    '<div class="brand">Tafheem <span>· test</span></div>' +
+    '<nav class="app-nav">';
+  links.forEach(([href, en, ar]) => {
+    const active = href === here ? ' class="active"' : "";
+    html +=
+      '<a href="' + href + '"' + active +
+      ' data-en="' + en + '" data-ar="' + ar + '">' + en + "</a>";
+  });
+  html +=
+    "</nav>" +
+    '<button id="langToggle" type="button" class="lang-btn" onclick="toggleLang()">العربية</button>' +
+    "</header>";
+  document.write(html);
 }
 
 // Full country list for the registration dropdown.
