@@ -1,0 +1,37 @@
+name: Platform CI
+
+# Typecheck + build the Next.js platform on every push/PR that touches it.
+# (The functional suite in platform/tests needs a running server + Supabase
+# secrets, so it is left out of CI here — run it locally per its header.)
+
+on:
+  push:
+    paths:
+      - "platform/**"
+  pull_request:
+    paths:
+      - "platform/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: platform/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build

@@ -53,6 +53,19 @@ document.getElementById("load").addEventListener("click", async () => {
       (v.translation_en || "(no translation)");
     div.appendChild(head);
 
+    // Bookmark this verse.
+    const bm = document.createElement("button");
+    bm.textContent = "☆ Bookmark";
+    bm.className = "action";
+    bm.addEventListener("click", async () => {
+      const r = await api("/api/bookmarks", {
+        method: "POST",
+        body: JSON.stringify({ surah_number: v.surah_number, ayah_number: v.ayah_number }),
+      });
+      bm.textContent = r.ok ? "★ Bookmarked" : "Bookmark failed";
+    });
+    div.appendChild(bm);
+
     const words = wordsByAyah[v.ayah_number] || [];
     if (!words.length) {
       const note = document.createElement("em");
@@ -61,6 +74,7 @@ document.getElementById("load").addEventListener("click", async () => {
     }
     words.forEach((w) => {
       const b = document.createElement("button");
+      b.className = "word";
       b.textContent = w.arabic_text || "؟";
       b.style.margin = "2px";
       // Data is already loaded — show it directly, no extra request.

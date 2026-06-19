@@ -57,6 +57,14 @@ export function handleError(err: unknown): NextResponse {
     );
   }
 
+  // Malformed JSON body (req.json() throws a SyntaxError) → 400, not 500.
+  if (err instanceof SyntaxError) {
+    return NextResponse.json(
+      { error: { message: "Invalid JSON body", code: "bad_request" } },
+      { status: 400 }
+    );
+  }
+
   if (err instanceof ZodError) {
     return NextResponse.json(
       {

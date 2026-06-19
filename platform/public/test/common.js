@@ -30,6 +30,18 @@ async function api(path, options = {}) {
   return { status: res.status, ok: res.ok, body };
 }
 
+// Escape user-controlled text before putting it inside innerHTML.
+// display_name and tags are NOT server-sanitized (only reflection bodies are),
+// so they must be output-encoded to prevent stored XSS.
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function show(el, value) {
   const node = typeof el === "string" ? document.getElementById(el) : el;
   node.textContent =

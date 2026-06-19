@@ -22,11 +22,23 @@ export async function runAudit(text: string): Promise<AuditResult> {
     throw new Error("audit_unavailable");
   }
 
-  const haystack = text.toLowerCase();
+  const haystack = normalize(text);
   const flagged = (data ?? []).some((row) => {
-    const kw = String(row.keyword ?? "").trim().toLowerCase();
+    const kw = normalize(String(row.keyword ?? ""));
     return kw.length > 0 && haystack.includes(kw);
   });
 
   return { flagged };
+}
+
+// Zero-width and bidi-control characters used to obfuscate flagged words.
+const INVISIBLE = /[​-‏‪-‮⁠﻿]/g;
+
+/**
+ * Normalize text so trivial obfuscation can't slip a flagged word past the
+ * audit: NFKC fold, lowercase, and strip zero-width / bidi-control characters
+ * (e.g. a zero-width space inside "hate").
+ */
+function normalize(s: string): string {
+  return s.normalize("NFKC").toLowerCase().replace(INVISIBLE, "");
 }

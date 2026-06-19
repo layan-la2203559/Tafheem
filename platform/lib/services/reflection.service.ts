@@ -8,6 +8,7 @@ import type {
 } from "@/lib/validation";
 import { Errors } from "@/lib/errors";
 import { runAudit } from "@/lib/guards/runAudit";
+import { sanitizeReflectionHtml, htmlToText } from "@/lib/sanitize";
 
 type DB = SupabaseClient<Database>;
 
@@ -21,13 +22,16 @@ export async function createReflection(
   userId: string,
   input: z.infer<typeof createReflectionSchema>
 ): Promise<Reflection> {
+  const body = sanitizeReflectionHtml(input.body);
+  if (!htmlToText(body)) throw Errors.badRequest("Reflection body is required");
+
   const { data, error } = await db
     .from("reflections")
     .insert({
       user_id: userId,
       surah_number: input.surah_number,
       ayah_number: input.ayah_number,
-      body: input.body,
+      body,
       tags: input.tags ?? null,
       privacy: "private",
       is_published: false,
@@ -99,7 +103,11 @@ export async function updateReflection(
   }
 
   const patch: Database["public"]["Tables"]["reflections"]["Update"] = {};
-  if (input.body !== undefined) patch.body = input.body;
+  if (input.body !== undefined) {
+    const body = sanitizeReflectionHtml(input.body);
+    if (!htmlToText(body)) throw Errors.badRequest("Reflection body is required");
+    patch.body = body;
+  }
   if (input.tags !== undefined) patch.tags = input.tags;
 
   const { data, error } = await db
@@ -142,7 +150,8 @@ export async function publishReflection(
     throw Errors.badRequest("This reflection is already published");
   }
 
-  const audit = await runAudit(existing.body);
+  // Audit against the plain-text version so HTML tags can't split keywords.
+  const audit = await runAudit(htmlToText(existing.body));
   if (audit.flagged) {
     throw Errors.badRequest(
       "Your reflection contains flagged content. Please revise and try again."

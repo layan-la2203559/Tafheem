@@ -1,19 +1,21 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
 import type { z } from "zod";
-import type { Database } from "@/lib/database.types";
 import type { createReportSchema } from "@/lib/validation";
+import { createServiceClient } from "@/lib/supabase/server";
 import { Errors } from "@/lib/errors";
 
-type DB = SupabaseClient<Database>;
-
 /**
- * Submit an anonymous report. The reporter's identity is NEVER stored — we
- * deliberately insert only the target + reason, no user_id of the reporter.
+ * Submit an anonymous report.
+ *
+ * Uses the service-role client on purpose: the `reports` table only allows
+ * moderators/admins to SELECT (reporter privacy), so a normal user's
+ * insert-with-returning would be blocked when reading the row back. The route
+ * still gates this behind requireAuth, and we deliberately store NO reporter
+ * identity — only the target + reason.
  */
 export async function submitReport(
-  db: DB,
   input: z.infer<typeof createReportSchema>
 ): Promise<{ id: string }> {
+  const db = createServiceClient();
   const { data, error } = await db
     .from("reports")
     .insert({

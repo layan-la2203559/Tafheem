@@ -23,9 +23,11 @@ async function load() {
   if (d.ok) {
     (d.body.data.private_reflections || []).forEach((r) => {
       const div = document.createElement("div");
+      // r.body is sanitized server-side (safe as HTML); tags are escaped.
       div.innerHTML =
-        "<b>" + r.surah_number + ":" + r.ayah_number + "</b> — " +
-        (r.body || "") + " <em>tags: " + JSON.stringify(r.tags) + "</em> ";
+        "<b>" + r.surah_number + ":" + r.ayah_number + "</b>" +
+        '<div class="reflection-body">' + (r.body || "") + "</div>" +
+        "<small>tags: " + esc(JSON.stringify(r.tags)) + "</small> ";
       const btn = document.createElement("button");
       btn.textContent = "Make public";
       btn.addEventListener("click", () => publish(r.id));

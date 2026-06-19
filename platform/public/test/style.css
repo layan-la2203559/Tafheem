@@ -120,7 +120,7 @@ button:hover { background: var(--berry-dark); }
 button:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.6; }
 
 /* word/token buttons in the reader sit close together */
-#verses button {
+#verses button.word {
   background: #fbf6ee;
   color: var(--berry);
   border: 1px solid var(--line);
@@ -129,7 +129,10 @@ button:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.6; }
   font-weight: 500;
   padding: 4px 8px;
 }
-#verses button:hover { background: var(--gold); color: var(--berry-dark); }
+#verses button.word:hover { background: var(--gold); color: var(--berry-dark); }
+
+/* small secondary action button (e.g. Bookmark) */
+button.action { font-size: 13px; padding: 5px 10px; }
 
 /* ---------- output / cards ---------- */
 pre {
@@ -153,3 +156,43 @@ em { color: var(--muted); }
 
 /* spacing for stacked form rows */
 form p { margin: 10px 0; }
+
+/* ---------- WYSIWYG editor ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  background: #fbf6ee;
+}
+.toolbar button {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line);
+  padding: 5px 9px;
+  min-width: 34px;
+}
+.toolbar button:hover { background: var(--gold); color: var(--berry-dark); }
+.toolbar select, .toolbar input[type="color"] {
+  min-width: auto;
+  padding: 5px 6px;
+  height: 32px;
+}
+.editor {
+  min-height: 150px;
+  max-width: 560px;
+  border: 1px solid var(--line);
+  border-radius: 0 0 10px 10px;
+  padding: 12px 14px;
+  background: #fff;
+  overflow-y: auto;
+}
+.editor:focus { outline: none; border-color: var(--berry); box-shadow: 0 0 0 3px rgba(112,51,76,0.12); }
+
+/* rendered reflection content (feed/dashboard) */
+.reflection-body { margin: 6px 0; }
+.reflection-body p { margin: 4px 0; }

@@ -7,24 +7,74 @@
 <p>Surah: <input id="surah" type="number" value="1" min="1" max="114"></p>
 <p>Ayah: <input id="ayah" type="number" value="1" min="1"></p>
 <p>Tags (comma separated): <input id="tags"></p>
-<p>Body (Markdown):<br><textarea id="body" rows="6" cols="60"></textarea></p>
+
+<p>Body:</p>
+<div class="toolbar">
+  <button type="button" data-cmd="bold"><b>B</b></button>
+  <button type="button" data-cmd="italic"><i>I</i></button>
+  <button type="button" data-cmd="underline"><u>U</u></button>
+  <button type="button" data-cmd="strikeThrough"><s>S</s></button>
+  <button type="button" data-cmd="formatBlock" data-val="H2">H</button>
+  <button type="button" data-cmd="insertUnorderedList">• List</button>
+  <button type="button" data-cmd="insertOrderedList">1. List</button>
+  <select id="font" title="Font">
+    <option value="">Font</option>
+    <option value="Georgia, serif">Georgia</option>
+    <option value="'Playfair Display', serif">Playfair</option>
+    <option value="Arial, sans-serif">Arial</option>
+    <option value="'Courier New', monospace">Courier</option>
+    <option value="'Amiri', serif">Amiri (Arabic)</option>
+  </select>
+  <select id="size" title="Size">
+    <option value="">Size</option>
+    <option value="2">Small</option>
+    <option value="3">Normal</option>
+    <option value="5">Large</option>
+    <option value="6">Huge</option>
+  </select>
+  <input type="color" id="color" title="Text colour" value="#70334c">
+</div>
+<div id="body" class="editor" contenteditable="true"></div>
+
 <p>
   <button id="save">Save draft (private)</button>
   <button id="publish" disabled>Publish current draft</button>
 </p>
 <pre id="out"></pre>
+
 <script>
 let currentId = null;
+const editor = document.getElementById("body");
+
+// Use CSS styles (spans) rather than legacy <font> tags, so formatting
+// survives server-side sanitization.
+function exec(cmd, val) {
+  document.execCommand("styleWithCSS", false, true);
+  document.execCommand(cmd, false, val || null);
+  editor.focus();
+}
+
+document.querySelectorAll(".toolbar [data-cmd]").forEach((btn) => {
+  btn.addEventListener("click", () => exec(btn.dataset.cmd, btn.dataset.val));
+});
+document.getElementById("font").addEventListener("change", (e) => {
+  if (e.target.value) exec("fontName", e.target.value);
+});
+document.getElementById("size").addEventListener("change", (e) => {
+  if (e.target.value) exec("fontSize", e.target.value);
+});
+document.getElementById("color").addEventListener("input", (e) => {
+  exec("foreColor", e.target.value);
+});
 
 document.getElementById("save").addEventListener("click", async () => {
-  const tags = tags_value();
   const r = await api("/api/reflections", {
     method: "POST",
     body: JSON.stringify({
       surah_number: Number(surah.value),
       ayah_number: Number(ayah.value),
-      body: body.value,
-      tags,
+      body: editor.innerHTML, // sanitized server-side before storing
+      tags: tags_value(),
     }),
   });
   if (r.ok && r.body.data) {

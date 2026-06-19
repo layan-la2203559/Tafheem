@@ -32,17 +32,20 @@ export const resetPasswordSchema = z.object({
 });
 
 // ---------- Reflections -----------------------------------------------------
+// Longest surah (Al-Baqarah) has 286 ayahs; cap the body to bound payload size.
+const MAX_BODY = 50_000;
+
 export const createReflectionSchema = z.object({
   surah_number: z.coerce.number().int().min(1).max(114),
-  ayah_number: z.coerce.number().int().min(1),
-  body: z.string().trim().min(1, "Reflection body is required"),
-  tags: z.array(z.string().trim().min(1)).max(20).optional(),
+  ayah_number: z.coerce.number().int().min(1).max(286),
+  body: z.string().trim().min(1, "Reflection body is required").max(MAX_BODY),
+  tags: z.array(z.string().trim().min(1).max(50)).max(20).optional(),
 });
 
 export const updateReflectionSchema = z
   .object({
-    body: z.string().trim().min(1).optional(),
-    tags: z.array(z.string().trim().min(1)).max(20).optional(),
+    body: z.string().trim().min(1).max(MAX_BODY).optional(),
+    tags: z.array(z.string().trim().min(1).max(50)).max(20).optional(),
   })
   .refine((v) => v.body !== undefined || v.tags !== undefined, {
     message: "Provide body and/or tags to update",
@@ -51,7 +54,7 @@ export const updateReflectionSchema = z
 // ---------- Bookmarks -------------------------------------------------------
 export const createBookmarkSchema = z.object({
   surah_number: z.coerce.number().int().min(1).max(114),
-  ayah_number: z.coerce.number().int().min(1),
+  ayah_number: z.coerce.number().int().min(1).max(286),
 });
 
 // ---------- Profile ---------------------------------------------------------

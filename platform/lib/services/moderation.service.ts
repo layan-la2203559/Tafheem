@@ -96,6 +96,11 @@ export async function performAction(
       if (!ownerId) throw Errors.badRequest("ban requires a target user");
       await db.from("profiles").update({ banned: true }).eq("id", ownerId);
       await setSuspendBan(db, ownerId, { banned: true });
+      // Defense in depth: also disable the account at the Supabase auth layer so
+      // a banned user can't mint fresh tokens (best-effort).
+      await db.auth.admin
+        .updateUserById(ownerId, { ban_duration: "876000h" })
+        .catch((e) => console.error("[tafheem] supabase ban failed:", e));
       await setReportStatus(db, input.report_id, "actioned");
       await incrementViolations(db, ownerId);
       break;

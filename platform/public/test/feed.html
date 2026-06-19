@@ -27,11 +27,13 @@ async function load() {
   if (!r.ok) { show("out", { status: r.status, ...r.body }); return; }
   (r.body.data || []).forEach((ref) => {
     const div = document.createElement("div");
+    // published_body is sanitized server-side (safe as HTML); display_name and
+    // tags are user-controlled and NOT sanitized, so they must be escaped.
     div.innerHTML =
       "<p><b>" + ref.surah_number + ":" + ref.ayah_number + "</b> by " +
-      ref.display_name + (ref.is_new ? " <em>[new]</em>" : "") +
-      "<br>" + (ref.published_body || "") +
-      "<br>tags: " + JSON.stringify(ref.tags) + "</p>";
+      esc(ref.display_name) + (ref.is_new ? " <em>[new]</em>" : "") + "</p>" +
+      '<div class="reflection-body">' + (ref.published_body || "") + "</div>" +
+      "<p><small>tags: " + esc(JSON.stringify(ref.tags)) + "</small></p>";
     const rep = document.createElement("button");
     rep.textContent = "Report";
     rep.addEventListener("click", () => report(ref));

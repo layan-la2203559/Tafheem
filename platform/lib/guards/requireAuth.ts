@@ -1,6 +1,6 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type { Database } from "@/lib/database.types";
-import { createBearerClient } from "@/lib/supabase/server";
+import { createBearerClient, createServiceClient } from "@/lib/supabase/server";
 import { Errors } from "@/lib/errors";
 
 export interface AuthContext {
@@ -31,6 +31,18 @@ export async function requireAuth(req: Request): Promise<AuthContext> {
   if (error || !data?.user) {
     throw Errors.unauthorized("Invalid or expired session");
   }
+
+  // Enforce moderation state: a banned or suspended account holds a valid
+  // Supabase token but must not be able to use the API. Checked via the
+  // service client (authoritative, bypasses RLS) on the indexed PK.
+  const admin = createServiceClient();
+  const { data: profile } = await admin
+    .from("profiles")
+    .select("banned, suspended")
+    .eq("id", data.user.id)
+    .single();
+  if (profile?.banned) throw Errors.forbidden("This account has been banned");
+  if (profile?.suspended) throw Errors.forbidden("This account is suspended");
 
   return { user: data.user, token, supabase };
 }
