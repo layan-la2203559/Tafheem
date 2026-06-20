@@ -250,7 +250,7 @@ try {
 $mail->isHTML(true);
 $mail->Subject = $subject;
 $mail->Body    = $htmlBody;
-$mail->AltBody = strip_tags($message); // Plain text version for old clients
+$mail->AltBody = strip_tags($htmlBody); // Plain text version for old clients
 
 $mail->send();
 }catch (Exception $e) {
