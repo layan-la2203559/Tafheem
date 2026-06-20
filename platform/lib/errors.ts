@@ -91,8 +91,10 @@ export function handleError(err: unknown): NextResponse {
  * For non-auth/DB errors prefer a generic message so internals don't leak.
  */
 export function mapAuthError(err: { message?: string; status?: number } | null): ApiError {
-  const msg = err?.message ?? "Authentication failed";
-  // Supabase returns 400 for bad credentials; surface a clean message.
+  // Guard against empty / non-string messages (some 500s serialize to "{}").
+  const raw = typeof err?.message === "string" ? err.message.trim() : "";
+  const msg = raw && raw !== "{}" && raw !== "[object Object]" ? raw : "Authentication failed";
+
   if (/invalid login credentials/i.test(msg)) {
     return new ApiError(401, "Invalid email or password", "invalid_credentials");
   }
@@ -101,6 +103,18 @@ export function mapAuthError(err: { message?: string; status?: number } | null):
   }
   if (/user already registered/i.test(msg)) {
     return new ApiError(409, "An account with this email already exists", "email_taken");
+  }
+  // Email delivery failure (e.g. misconfigured SMTP → "Error sending ... email").
+  if (/sending.*email|error sending|smtp|confirmation email/i.test(msg)) {
+    return new ApiError(
+      502,
+      "We couldn't send your verification email. Please try again shortly.",
+      "email_send_failed"
+    );
+  }
+  // Unknown 500s from the auth server: don't echo internals.
+  if ((err?.status ?? 0) >= 500) {
+    return new ApiError(502, "The authentication service is temporarily unavailable", "auth_unavailable");
   }
   return new ApiError(err?.status && err.status >= 400 ? err.status : 400, msg, "auth_error");
 }
