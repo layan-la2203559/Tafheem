@@ -1,10 +1,6 @@
 // Shared helpers for the no-design test pages. Token lives in localStorage.
 const TOKEN_KEY = "tafheem_token";
 
-// Deployment marker — change this string before each push to verify the
-// GitHub auto-deploy actually shipped your new build (it shows in the header).
-const DEPLOY_TAG = "deploy-1";
-
 function getToken() {
   return localStorage.getItem(TOKEN_KEY) || "";
 }
@@ -100,9 +96,6 @@ function nav() {
   });
   html +=
     "</nav>" +
-    // Deployment marker — bump DEPLOY_TAG below before each push to confirm the
-    // new build is live (the square + label should change after deploy).
-    '<span class="deploy-marker" title="deployment marker">■ ' + DEPLOY_TAG + "</span>" +
     '<button id="langToggle" type="button" class="lang-btn" onclick="toggleLang()">العربية</button>' +
     "</header>";
   document.write(html);

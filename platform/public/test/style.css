@@ -73,18 +73,6 @@ a { color: var(--berry); }
 }
 .app-nav a:hover { background: rgba(255, 255, 255, 0.12); }
 .app-nav a.active { background: var(--gold); color: var(--berry-dark); font-weight: 600; }
-/* deployment marker — confirms a fresh build is live */
-.deploy-marker {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--gold);
-  color: var(--berry-dark);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 6px;
-}
 .lang-btn {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.5);
