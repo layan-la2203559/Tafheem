@@ -29,7 +29,13 @@ $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASS'];
 $db   = $_ENV['DB_NAME'];
 
-$conn = new mysqli($host, $user, $pass, $db);
+// PHP 8.1+ makes mysqli THROW on connection failure instead of setting
+// connect_error. Turn that off so we can return clean JSON instead of a
+// fatal error (a fatal produces a blank 500 that leaves the form stuck on
+// "Saving..." because the front-end has no readable response to parse).
+mysqli_report(MYSQLI_REPORT_OFF);
+
+$conn = @new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
     echo json_encode(["message" => "Database connection failed"]);
@@ -85,7 +91,9 @@ if ($apiSecret) {
 
     if (isset($tagsData['tags'])) {
         foreach ($tagsData['tags'] as $t) {
-            if ($t['name'] === $tag) {
+            // Case-insensitive match so an existing tag like "language_English"
+            // is reused instead of creating a duplicate "language_english".
+            if (strcasecmp($t['name'], $tag) === 0) {
                 $tagId = $t['id'];
                 break;
             }
@@ -229,8 +237,18 @@ if ($lang === "ar") {
     $templateFile = __DIR__ . '/../Email/email_new.html';
 }
 
-$htmlBody = file_get_contents($templateFile);
+$htmlBody = @file_get_contents($templateFile);
+if ($htmlBody === false) {
+    echo json_encode(["message" => "Email template not found"]);
+    exit();
+}
 $htmlBody = str_replace('{{NAME}}', $firstName, $htmlBody);
+
+// Fail fast with clean JSON if SMTP config is missing (e.g. .env not deployed)
+if (empty($_ENV['SMTP_HOST']) || empty($_ENV['SMTP_USER']) || empty($_ENV['SMTP_PASS'])) {
+    echo json_encode(["message" => "Email service not configured"]);
+    exit();
+}
 
 $mail = new PHPMailer(true);
 $mail->CharSet = 'UTF-8';

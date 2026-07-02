@@ -25,8 +25,8 @@
       <div class="tagline"> تدبّر تفكّر تفهيم
       </div>
       <div class="language">
-        <a class="en" href="./index.html">EN</a>
-        <a class="ar" href="./index_ar.html">AR</a>
+        <a class="en" href="/en">EN</a>
+        <a class="ar" href="/ar">AR</a>
       </div>
     </header>
     <main>
@@ -111,18 +111,21 @@
 
         message.innerText = "جارٍ الحفظ...";
 
-        const res = await fetch("save.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, lang: "ar" }),
-        });
+        try {
+          const res = await fetch("save.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, lang: "ar" }),
+          });
 
-        const data = await res.json();
+          const data = await res.json();
+          message.innerText = data.message;
 
-        message.innerText = data.message;
-
-        // clear form
-        this.reset();
+          // clear form
+          this.reset();
+        } catch (err) {
+          message.innerText = "حدث خطأ ما. يرجى المحاولة مرة أخرى.";
+        }
       });
   </script>
 </body>

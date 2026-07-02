@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tafheem MVP — Project Gantt</title>
+  <style>
+    :root {
+      --berry: #70334c;
+      --gold: #dbbc47;
+      --cream: #fefcf7;
+      --blue: #c8d1d5;
+      --blue-ink: #33474e;
+      --ink: #3a2a30;
+      --line: #ece5d6;
+      --weeks: 10;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+      padding: 28px 22px 60px;
+    }
+
+    header.page {
+      max-width: 1200px;
+      margin: 0 auto 18px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--berry);
+      margin: 0 0 4px;
+      font-size: 26px;
+      letter-spacing: .3px;
+    }
+
+    .sub { color: #7a6b70; font-size: 13px; margin: 0 0 14px; }
+    .sub strong { color: var(--berry); }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 22px;
+      align-items: center;
+      font-size: 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+
+    .legend .grp { display: flex; align-items: center; gap: 7px; }
+    .swatch { width: 15px; height: 15px; border-radius: 4px; display: inline-block; }
+    .sw-design { background: var(--gold); }
+    .sw-frontend { background: var(--berry); }
+    .sw-backend { background: var(--blue); border: 1px solid #aab7bc; }
+    .sw-qa { background: linear-gradient(135deg, var(--berry) 50%, var(--gold) 50%); }
+    .sw-hatch {
+      background: repeating-linear-gradient(45deg, var(--berry) 0 4px, #a9738a 4px 8px);
+    }
+    .sw-done { background: var(--berry); opacity: .5; }
+
+    /* ---- Gantt grid ---- */
+    .chart {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      border-bottom: 1px solid var(--line);
+    }
+    .row:last-child { border-bottom: 0; }
+
+    .label {
+      padding: 9px 12px;
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-right: 1px solid var(--line);
+      background: #fffdf8;
+    }
+    .label .owner {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #fff;
+      padding: 1px 6px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .o-design { background: var(--gold); color: #6b5510; }
+    .o-frontend { background: var(--berry); }
+    .o-backend { background: #8ea3ab; }
+    .o-all { background: #6b7b62; }
+
+    .track {
+      display: grid;
+      grid-template-columns: repeat(var(--weeks), 1fr);
+      grid-auto-rows: minmax(30px, auto);
+      align-items: center;
+      position: relative;
+      background: repeating-linear-gradient(to right,
+          transparent 0, transparent calc(100% / var(--weeks) - 1px),
+          var(--line) calc(100% / var(--weeks) - 1px), var(--line) calc(100% / var(--weeks)));
+      padding: 6px 0;
+    }
+
+    /* header of week columns */
+    .row.head .label { background: var(--berry); border-right-color: #58283c; }
+    .row.head .track { background: var(--berry); padding: 0; }
+    .row.head .wk {
+      grid-row: 1;
+      text-align: center;
+      color: #fff;
+      font-size: 11px;
+      padding: 8px 2px;
+      border-left: 1px solid #58283c;
+      line-height: 1.35;
+    }
+    .row.head .wk small { color: var(--gold); font-size: 10px; }
+    .head-title { color: #fff; font-family: 'Playfair Display', serif; font-size: 14px; }
+
+    /* lane band */
+    .lane {
+      grid-column: 1 / -1;
+      background: #f4eede;
+      color: var(--berry);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      padding: 6px 12px;
+    }
+
+    .bar {
+      grid-row: 1;
+      height: 24px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 11px;
+      line-height: 24px;
+      padding: 0 8px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .12);
+      cursor: default;
+    }
+    .b-design { background: var(--gold); color: #5f4c0d; }
+    .b-frontend { background: var(--berry); }
+    .b-backend { background: var(--blue); color: var(--blue-ink); }
+    .b-qa { background: linear-gradient(135deg, var(--berry), #8a5f2a); }
+
+    .inprogress {
+      background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, .35) 0 5px, rgba(255, 255, 255, 0) 5px 10px);
+      outline: 2px solid #fff;
+      outline-offset: -2px;
+      font-weight: 600;
+    }
+    .b-design.inprogress { outline-color: #b9992f; }
+    .done { opacity: .55; font-style: italic; }
+    .done::before { content: "✓ "; font-style: normal; font-weight: 700; }
+
+    .milestone {
+      grid-row: 1;
+      justify-self: center;
+      width: 15px;
+      height: 15px;
+      background: var(--gold);
+      border: 2px solid var(--berry);
+      transform: rotate(45deg);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    }
+    .row.mile .label { font-weight: 700; color: var(--berry); background: #fff; }
+
+    footer.note {
+      max-width: 1200px;
+      margin: 16px auto 0;
+      font-size: 11.5px;
+      color: #8a7c81;
+      line-height: 1.6;
+    }
+    footer.note code { background: #f4eede; padding: 1px 5px; border-radius: 4px; color: var(--berry); }
+  </style>
+</head>
+
+<body>
+  <header class="page">
+    <h1>Tafheem MVP — Project Timeline</h1>
+    <p class="sub">
+      Kickoff <strong>Sunday 5 July 2026</strong> · working week Sun–Thu · 10-week plan to launch (~6 Sep 2026).
+      Team: <strong>Fatima Zahra</strong> (UI/UX, Penpot) · <strong>Fatima Alzahra</strong> (Frontend) ·
+      <strong>Layan Alwattar</strong> (Backend / Lead). Stack: Next.js + Tailwind (RTL) · Supabase · Resend.
+    </p>
+    <div class="legend">
+      <div class="grp"><span class="swatch sw-design"></span> Design</div>
+      <div class="grp"><span class="swatch sw-frontend"></span> Frontend</div>
+      <div class="grp"><span class="swatch sw-backend"></span> Backend</div>
+      <div class="grp"><span class="swatch sw-qa"></span> QA / All</div>
+      <div class="grp"><span class="swatch sw-hatch"></span> In progress</div>
+      <div class="grp"><span class="swatch sw-done"></span> Done ✓</div>
+      <div class="grp"><span class="milestone" style="position:static;display:inline-block;transform:rotate(45deg)"></span> Milestone</div>
+    </div>
+  </header>
+
+  <div class="chart">
+    <!-- Week header -->
+    <div class="row head">
+      <div class="label"><span class="head-title">Task</span></div>
+      <div class="track">
+        <div class="wk" style="grid-column:1">W1<br><small>Jul 5</small></div>
+        <div class="wk" style="grid-column:2">W2<br><small>Jul 12</small></div>
+        <div class="wk" style="grid-column:3">W3<br><small>Jul 19</small></div>
+        <div class="wk" style="grid-column:4">W4<br><small>Jul 26</small></div>
+        <div class="wk" style="grid-column:5">W5<br><small>Aug 2</small></div>
+        <div class="wk" style="grid-column:6">W6<br><small>Aug 9</small></div>
+        <div class="wk" style="grid-column:7">W7<br><small>Aug 16</small></div>
+        <div class="wk" style="grid-column:8">W8<br><small>Aug 23</small></div>
+        <div class="wk" style="grid-column:9">W9<br><small>Aug 30</small></div>
+        <div class="wk" style="grid-column:10">W10<br><small>Sep 6</small></div>
+      </div>
+    </div>
+
+    <!-- ===== DESIGN ===== -->
+    <div class="row"><div class="lane">Design · Fatima Zahra (Penpot)</div></div>
+
+    <div class="row">
+      <div class="label">Auth screens (login, register, reset, verify) <span class="owner o-design">Design</span></div>
+      <div class="track"><div class="bar b-design done" style="grid-column:1/2" title="Login + auth states designed — done at kickoff">Auth screens</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Onboarding · T&C · survey · tour <span class="owner o-design">Design</span></div>
+      <div class="track"><div class="bar b-design" style="grid-column:1/3" title="Onboarding flow, T&C, survey, tooltip tour">Onboarding &amp; tour</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Qur'an Reader (lists, verse, word popup) <span class="owner o-design">Design</span></div>
+      <div class="track"><div class="bar b-design" style="grid-column:2/5" title="Surah/Juz lists, verse view, 3-tab word popup, bookmark">Reader screens</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Reflection editor · feed · dashboard <span class="owner o-design">Design</span></div>
+      <div class="track"><div class="bar b-design" style="grid-column:4/6" title="Markdown editor, community feed, personal dashboard">Reflection &amp; feed</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Moderation · report · notifications · privacy <span class="owner o-design">Design</span></div>
+      <div class="track"><div class="bar b-design" style="grid-column:5/7" title="Mod dashboard, report modal, notifications, privacy centre, cookie banner">Moderation &amp; misc</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Empty / error / loading states + polish <span class="owner o-design">Design</span></div>
+      <div class="track"><div class="bar b-design" style="grid-column:6/8" title="All empty/error/loading states + visual polish">States &amp; polish</div></div>
+    </div>
+
+    <!-- ===== FRONTEND ===== -->
+    <div class="row"><div class="lane">Frontend · Fatima Alzahra (Next.js + Tailwind, RTL)</div></div>
+
+    <div class="row">
+      <div class="label">Scaffold: Next.js + Tailwind + RTL + tokens <span class="owner o-frontend">Frontend</span></div>
+      <div class="track"><div class="bar b-frontend inprogress" style="grid-column:1/2" title="App scaffold, Tailwind RTL config, brand tokens">Scaffold</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Auth screens + context + token refresh <span class="owner o-frontend">Frontend</span></div>
+      <div class="track"><div class="bar b-frontend inprogress" style="grid-column:1/3" title="Login (in progress), register, forgot/reset, verify, auth context, token refresh">Auth (login in progress)</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Onboarding flow + tour + avatar <span class="owner o-frontend">Frontend</span></div>
+      <div class="track"><div class="bar b-frontend" style="grid-column:2/4" title="Onboarding, tooltip tour, first-letter avatar">Onboarding</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Qur'an Reader (popup, bookmarks, dots) <span class="owner o-frontend">Frontend</span></div>
+      <div class="track"><div class="bar b-frontend" style="grid-column:3/6" title="Reader, word popup, bookmarks, indicator dots, root cross-ref">Reader</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Reflection system (editor, publish, feed) <span class="owner o-frontend">Frontend</span></div>
+      <div class="track"><div class="bar b-frontend" style="grid-column:5/8" title="Markdown editor, autosave, tags, publish flow, feed filters, dashboard">Reflection system</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Moderation UI · report · notifications · account <span class="owner o-frontend">Frontend</span></div>
+      <div class="track"><div class="bar b-frontend" style="grid-column:7/9" title="Mod UI, report modal, notification bell/prefs, privacy centre, cookie banner, account deletion">Moderation UI &amp; misc</div></div>
+    </div>
+    <div class="row">
+      <div class="label">PWA (service worker, manifest, offline) <span class="owner o-frontend">Frontend</span></div>
+      <div class="track"><div class="bar b-frontend" style="grid-column:8/9" title="Service worker, web manifest, installable, offline shell">PWA</div></div>
+    </div>
+
+    <!-- ===== BACKEND ===== -->
+    <div class="row"><div class="lane">Backend · Layan Alwattar (Next.js Route Handlers + Supabase) — testing lead</div></div>
+
+    <div class="row">
+      <div class="label">Backend build + migrations 0001–0005 <span class="owner o-backend">Backend</span></div>
+      <div class="track"><div class="bar b-backend done" style="grid-column:1/2" title="Auth, Quran, reflections, bookmarks, profile, reports, moderation endpoints + schema applied">Backend build</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Seed Qur'an verses <span class="owner o-backend">Backend</span></div>
+      <div class="track"><div class="bar b-backend done" style="grid-column:1/2" title="~6,236 verses seeded from Quran.com API">Seed verses</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Per-feature integration testing (test loop) <span class="owner o-backend">Backend</span></div>
+      <div class="track"><div class="bar b-backend inprogress" style="grid-column:1/9" title="Verify each endpoint as the matching frontend feature lands — the ongoing test loop">Integration testing — as features land</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Resend email verify (verification/reset) test <span class="owner o-backend">Backend</span></div>
+      <div class="track"><div class="bar b-backend" style="grid-column:2/3" title="End-to-end test of Resend transactional emails">Resend test</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Lexicon seeding (roots/POS/Lane's) + scholar flag <span class="owner o-backend">Backend</span></div>
+      <div class="track"><div class="bar b-backend" style="grid-column:2/5" title="Seed quran_words: roots, POS, Lane's, Mufradat; flag for scholar review">Lexicon data</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Performance: indexes + pagination checks <span class="owner o-backend">Backend</span></div>
+      <div class="track"><div class="bar b-backend" style="grid-column:6/8" title="DB indexes on hot queries, cursor pagination validation">Performance</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Security review + RLS audit <span class="owner o-backend">Backend</span></div>
+      <div class="track"><div class="bar b-backend" style="grid-column:7/9" title="SQLi/XSS/CSRF, rate limiting, auth-bypass, Supabase RLS audit">Security review</div></div>
+    </div>
+
+    <!-- ===== QA / LAUNCH ===== -->
+    <div class="row"><div class="lane">QA &amp; Launch · Whole team</div></div>
+
+    <div class="row">
+      <div class="label">Cross-browser + mobile + RTL audit <span class="owner o-all">All</span></div>
+      <div class="track"><div class="bar b-qa" style="grid-column:8/10" title="Chrome/Safari/Firefox/Edge, iOS/Android, full RTL rendering audit">Cross-browser / mobile / RTL</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Lighthouse ≥90 + a11y + states pass <span class="owner o-all">All</span></div>
+      <div class="track"><div class="bar b-qa" style="grid-column:9/10" title="Lighthouse ≥90 perf + a11y; empty/error/loading states verified">Lighthouse / a11y</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Backups + SSL + uptime monitoring <span class="owner o-all">All</span></div>
+      <div class="track"><div class="bar b-qa" style="grid-column:9/10" title="Verify Hostinger backups + restore, SSL on all envs, UptimeRobot">Ops readiness</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Team bug-bash <span class="owner o-all">All</span></div>
+      <div class="track"><div class="bar b-qa" style="grid-column:9/10" title="Whole-team bug bash before launch">Bug-bash</div></div>
+    </div>
+    <div class="row">
+      <div class="label">Production deploy <span class="owner o-all">All</span></div>
+      <div class="track"><div class="bar b-qa" style="grid-column:10/11" title="Production launch">Launch 🚀</div></div>
+    </div>
+
+    <!-- ===== MILESTONES ===== -->
+    <div class="row"><div class="lane">Milestones</div></div>
+    <div class="row mile">
+      <div class="label">Auth complete</div>
+      <div class="track"><div class="milestone" style="grid-column:2" title="Auth end-to-end complete — end of W2"></div></div>
+    </div>
+    <div class="row mile">
+      <div class="label">Reader complete</div>
+      <div class="track"><div class="milestone" style="grid-column:5" title="Qur'an Reader complete — end of W5"></div></div>
+    </div>
+    <div class="row mile">
+      <div class="label">Reflection system complete</div>
+      <div class="track"><div class="milestone" style="grid-column:7" title="Reflection + feed complete — end of W7"></div></div>
+    </div>
+    <div class="row mile">
+      <div class="label">MVP feature-complete</div>
+      <div class="track"><div class="milestone" style="grid-column:8" title="All MVP features built — end of W8"></div></div>
+    </div>
+    <div class="row mile">
+      <div class="label">🚀 Launch</div>
+      <div class="track"><div class="milestone" style="grid-column:10" title="Production launch — W10"></div></div>
+    </div>
+  </div>
+
+  <footer class="note">
+    Hover any bar for detail. Bars are placed by week; <code>grid-column</code> values map to W1–W10.
+    Assumptions to confirm: Sun–Thu working week, the 10-week window, and commenting deferred out of MVP.
+    Backend features are built; the <em>Integration testing</em> bar is the loop where each endpoint is
+    verified as the matching frontend screen is finished.
+  </footer>
+</body>
+
+</html>

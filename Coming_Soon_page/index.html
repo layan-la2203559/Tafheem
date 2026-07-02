@@ -24,8 +24,8 @@
       <div class="tagline"> Tadabbur. Tafakkur. Tafheem.
       </div>
       <div class="language">
-        <a class="en" href="./index.html">EN</a>
-        <a class="ar" href="./index_ar.html">AR</a>
+        <a class="en" href="/en">EN</a>
+        <a class="ar" href="/ar">AR</a>
       </div>
     </header>
     <main>
@@ -114,18 +114,21 @@
 
         message.innerText = "Saving...";
 
-        const res = await fetch("save.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, lang: "en" }),
-        });
+        try {
+          const res = await fetch("save.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, lang: "en" }),
+          });
 
-        const data = await res.json();
+          const data = await res.json();
+          message.innerText = data.message;
 
-        message.innerText = data.message;
-
-        // clear form
-        this.reset();
+          // clear form
+          this.reset();
+        } catch (err) {
+          message.innerText = "Something went wrong. Please try again.";
+        }
       });
   </script>
 </body>

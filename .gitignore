@@ -1,2 +1,16 @@
 Coming_Soon_page/.env
 Coming_Soon_page/test_kit.php
+
+# Dependencies & build output — never commit (huge / regenerable).
+# These caused a 129MB push failure when platform/ was committed by accident.
+node_modules/
+.next/
+*.tsbuildinfo
+
+# Secrets & local env (keep .env.example, which is not matched by these).
+.env
+.env.local
+.env*.local
+
+# Local archives
+*.zip
