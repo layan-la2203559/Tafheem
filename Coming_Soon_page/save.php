@@ -81,18 +81,48 @@ $firstName = explode(" ", $name)[0];
 ====================== */
 
 $apiSecret = $_ENV['KIT_API_SECRET'] ?? '';
+
+/**
+ * Call the Kit (ConvertKit) v3 API via cURL. On any failure it appends the
+ * HTTP status + response to kit_errors.log so a broken credential surfaces in
+ * a log instead of being silently swallowed (which is what previously turned a
+ * one-character typo in the API secret into an invisible "nothing saved to Kit"
+ * bug). Returns the decoded JSON array, or null on failure. The API secret is
+ * never written to the log.
+ */
+function kitRequest($url, $method = 'GET', $payload = null) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    if ($method === 'POST') {
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    }
+    $body = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err  = curl_error($ch);
+    curl_close($ch);
+
+    if ($body === false || $code < 200 || $code >= 300) {
+        $safeUrl = preg_replace('/api_secret=[^&]*/', 'api_secret=***', $url);
+        $logLine = date('c') . " Kit API error: HTTP $code $err url=$safeUrl body=" . substr((string) $body, 0, 300) . "\n";
+        @file_put_contents(__DIR__ . '/kit_errors.log', $logLine, FILE_APPEND);
+        return null;
+    }
+    return json_decode($body, true);
+}
+
 if ($apiSecret) {
     $tag = ($lang === "ar") ? "language_arabic" : "language_english";
 
-    // Find or create the tag
-    $tagsRes = @file_get_contents("https://api.convertkit.com/v3/tags?api_secret=" . urlencode($apiSecret));
-    $tagsData = json_decode($tagsRes, true);
+    // Find or create the tag. Case-insensitive match reuses an existing tag
+    // like "language_English" instead of creating a duplicate.
+    $tagsData = kitRequest("https://api.convertkit.com/v3/tags?api_secret=" . urlencode($apiSecret));
     $tagId = null;
 
     if (isset($tagsData['tags'])) {
         foreach ($tagsData['tags'] as $t) {
-            // Case-insensitive match so an existing tag like "language_English"
-            // is reused instead of creating a duplicate "language_english".
             if (strcasecmp($t['name'], $tag) === 0) {
                 $tagId = $t['id'];
                 break;
@@ -101,39 +131,21 @@ if ($apiSecret) {
     }
 
     if (!$tagId) {
-        $createTagOpts = [
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-Type: application/json',
-                'content' => json_encode([
-                    'api_secret' => $apiSecret,
-                    'tag' => ['name' => $tag]
-                ])
-            ]
-        ];
-        $createTagRes = @file_get_contents("https://api.convertkit.com/v3/tags", false, stream_context_create($createTagOpts));
-        $createTagData = json_decode($createTagRes, true);
+        $createTagData = kitRequest(
+            "https://api.convertkit.com/v3/tags",
+            'POST',
+            ['api_secret' => $apiSecret, 'tag' => ['name' => $tag]]
+        );
         if (isset($createTagData['id'])) {
             $tagId = $createTagData['id'];
         }
     }
 
     if ($tagId) {
-        $subscribeOpts = [
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-Type: application/json',
-                'content' => json_encode([
-                    'api_secret' => $apiSecret,
-                    'email' => $email,
-                    'first_name' => $firstName
-                ])
-            ]
-        ];
-        @file_get_contents(
+        kitRequest(
             "https://api.convertkit.com/v3/tags/" . $tagId . "/subscribe",
-            false,
-            stream_context_create($subscribeOpts)
+            'POST',
+            ['api_secret' => $apiSecret, 'email' => $email, 'first_name' => $firstName]
         );
     }
 }

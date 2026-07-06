@@ -2,6 +2,13 @@
     Order allow,deny
     Deny from all
 </Files>
+
+# Block web access to log files (e.g. kit_errors.log) and env files.
+<FilesMatch "\.(log|env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
 php_flag display_errors Off
 
 RewriteEngine On

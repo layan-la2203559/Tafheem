@@ -1,5 +1,6 @@
 Coming_Soon_page/.env
 Coming_Soon_page/test_kit.php
+Coming_Soon_page/kit_test.php
 
 # Dependencies & build output — never commit (huge / regenerable).
 # These caused a 129MB push failure when platform/ was committed by accident.
@@ -14,3 +15,6 @@ node_modules/
 
 # Local archives
 *.zip
+
+# Runtime logs
+*.log
