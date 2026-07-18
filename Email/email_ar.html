@@ -22,6 +22,11 @@
       --border-light: #f3e9d9;
     }
 
+    * {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
     body {
       margin: 0;
       padding: 20px;
@@ -149,6 +154,10 @@
       color: #333;
       /* Using standard serif for Arabic script clarity */
       font-family: "Amiri";
+      direction: rtl;
+      white-space: normal;
+      overflow-wrap: break-word;
+
     }
 
     .translation {
@@ -235,9 +244,9 @@
   </style>
 </head>
 
-<body>
+<body style="margin:0; padding:20px; background:#f4f4f4; direction:rtl;">
 
-  <div class="email-container">
+  <div class="email-container" style="max-width:500px; width:100%; margin:0 auto;">
     <header class="header">
       <div class="logo">
         <span class="yellow">تفهيم</span>
@@ -246,7 +255,7 @@
     </header>
 
 
-    <main class="content" dir="rtl" style="text-align: right;">
+    <main class="content" dir="rtl" style="text-align: right; direction: rtl; overflow-wrap: break-word;">
       <div class="greeting">
         السلام عليكم ورحمة الله وبركاته،
         <span class="highlight-name">{{NAME}}.</span>

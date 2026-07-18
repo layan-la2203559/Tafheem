@@ -3,7 +3,7 @@ import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import { inter, playfair } from "@/app/layout";
 import Image from "next/image";
 
-export default function SignUpForm() {
+export default function SignUpFormOld() {
   interface FormData {
     displayName: string;
     email: string;
@@ -35,7 +35,7 @@ export default function SignUpForm() {
       ...prev,
       [name]: value,
     }));
-    
+
     console.log(value);
   };
   //input border becomes green if filled
@@ -43,15 +43,6 @@ export default function SignUpForm() {
   const [value, setValue] = useState("");
   const [touched, setTouched] = useState(false);
   const isValid = value.length > 0; // your validation rule
-
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   // Handle form submission
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
