@@ -1,5 +1,5 @@
 "use client";
-import { useState, type FormEvent } from "react";
+import { useState, SubmitEvent } from "react";
 import { inter, playfair } from "@/app/layout";
 import NameInput from "./NameInput";
 import EmailInput from "./EmailInput";
@@ -7,15 +7,24 @@ import PasswordInput from "./PasswordInput";
 import GenderInput from "./GenderInput";
 import CountryInput from "./CountryInput";
 import BioInput from "./BioInput";
+import FormError from "./FormError";
 
 export default function SignUpForm() {
+  const [validName, setValidName] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
+  const [validGender, setValidGender] = useState(false);
+  const [validCountry, setValidCountry] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitError(null); // Reset error state on new try
+    setSubmitError(null); // Reset error state on new submission attempt
+
+    if (!validName) {
+      setSubmitError("Please enter a valid display name.");
+      return;
+    }
 
     if (!validEmail) {
       setSubmitError("Please enter a valid email address.");
@@ -27,17 +36,31 @@ export default function SignUpForm() {
       return;
     }
 
-    const formData = new FormData(e.currentTarget);
-    console.log("Form is valid! Submitting data...");
-    console.log(formData.get("displayName"));
-    console.log(formData.get("email"));
+    if (!validGender) {
+      setSubmitError("Please select a gender option.");
+      return;
+    }
 
-    // Continue with your actual registration dispatch or API request here
+    if (!validCountry) {
+      setSubmitError("Please select your country.");
+      return;
+    }
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    console.log("Form is valid! Submitting data...");
+    console.log("Name:", formData.get("displayName"));
+    console.log("Email:", formData.get("email"));
+    console.log("Gender:", formData.get("gender"));
+    console.log("Country:", formData.get("country"));
+
+    const userData = Object.fromEntries(formData.entries());
+// 
+    console.log("JSON Payload:", JSON.stringify(userData, null, 2));
   }
 
   return (
     <div className="w-full max-w-md px-6 py-8 flex flex-col grow">
-      <div className="text-center mb-8">
+      <div className="text-center mb-6">
         <h2
           className={`text-[#70334cFF] text-2xl ${playfair.className} font-bold`}
         >
@@ -51,22 +74,16 @@ export default function SignUpForm() {
         <hr className="border-none h-px bg-[linear-gradient(to_right,#EAE1E1_0%,#DBBC47_95%,#DBBC47_100%)] mt-4 w-full opacity-50" />
       </div>
 
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-        <NameInput />
+      {/* Renders right below the line with a contextual reason */}
+      {submitError && <FormError message={submitError} />}
+
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
+        <NameInput setValidName={setValidName} />
         <EmailInput setValidEmail={setValidEmail} />
         <PasswordInput setValidPassword={setValidPassword} />
-        <GenderInput />
-        <CountryInput />
+        <GenderInput setValidGender={setValidGender} />
+        <CountryInput setValidCountry={setValidCountry} />
         <BioInput />
-
-        {/* Dynamic Global Submit Error Feedback */}
-        {submitError && (
-          <div
-            className={`${inter.className} text-[#b94a48] text-xs font-semibold uppercase tracking-[0.5px] bg-[#b94a48]/10 p-3 rounded text-center`}
-          >
-            {submitError}
-          </div>
-        )}
 
         <button
           type="submit"

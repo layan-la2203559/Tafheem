@@ -2,7 +2,11 @@
 import { inter } from "@/app/layout";
 import { useState, useRef, useEffect } from "react";
 
-export default function GenderInput() {
+type GenderInputProps = {
+  setValidGender: (isValid: boolean) => void;
+};
+
+export default function GenderInput({ setValidGender }: GenderInputProps) {
   const [gender, setGender] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [touchedColor, setTouchedColor] = useState("border-[#70334c2E]");
@@ -13,6 +17,11 @@ export default function GenderInput() {
     { value: "male", label: "Male" },
     { value: "prefer-not-to-say", label: "Prefer not to say" },
   ];
+
+  // Sync state validity dynamically with the parent form
+  useEffect(() => {
+    setValidGender(gender.length > 0);
+  }, [gender, setValidGender]);
 
   // Close dropdown and validate when clicking outside
   useEffect(() => {

@@ -2,7 +2,6 @@
 import { inter } from "@/app/layout";
 import { useState, useRef, useEffect, useMemo } from "react";
 
-// Simplified list relying strictly on name strings
 const countries = [
   { name: "Afghanistan" },
   { name: "Albania" },
@@ -203,7 +202,11 @@ const countries = [
 ].sort((a, b) => a.name.localeCompare(b.name));
 const countriesOptions = [{ name: "Prefer not to say" }, ...countries];
 
-export default function CountryInput() {
+type CountryInputProps = {
+  setValidCountry: (isValid: boolean) => void;
+};
+
+export default function CountryInput({ setValidCountry }: CountryInputProps) {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -211,6 +214,11 @@ export default function CountryInput() {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync validation up to form component
+  useEffect(() => {
+    setValidCountry(selectedCountry.length > 0);
+  }, [selectedCountry, setValidCountry]);
 
   // Filter countries dynamically based on typing search
   const filteredCountries = useMemo(() => {
@@ -265,30 +273,6 @@ export default function CountryInput() {
         <label className="text-[#70334cFF] text-xs font-bold tracking-[2px] uppercase select-none">
           Country
         </label>
-        {/* SVG for question mark */}
-
-        {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          className="w-3.5 h-3.5 text-[#70334cFF]"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-
-          <path
-            d="M12 17V17.01M12 14C12 12.5 13 11.5 14 10.5C14.75 9.75 15 8.8 15 8C15 6.3 13.7 5 12 5C10.3 5 9 6.3 9 8"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg> */}
       </div>
 
       {/* Hidden input for structural form compatibility */}
@@ -332,7 +316,6 @@ export default function CountryInput() {
       {/* Floating Dropdown Frame */}
       {isOpen && (
         <div className="absolute z-10 w-full mt-1 border-[1.33px] border-[#70334c2E] rounded-[5px] bg-[#fefcf7FF] shadow-lg overflow-hidden flex flex-col max-h-64 animate-in fade-in slide-in-from-top-1 duration-100">
-          {/* Integrated Search Bar */}
           <div className="p-2 border-b border-[#70334c1F]">
             <input
               ref={searchInputRef}
@@ -344,7 +327,6 @@ export default function CountryInput() {
             />
           </div>
 
-          {/* Filtered Country List */}
           <ul className="overflow-y-auto py-1 flex-1">
             {filteredCountries.length > 0 ? (
               filteredCountries.map((country) => (

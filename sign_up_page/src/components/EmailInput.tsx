@@ -5,18 +5,31 @@ import { ChangeEvent, useState } from "react";
 type EmailInputProps = {
   setValidEmail: (isValid: boolean) => void;
 };
-export default function EmailInput(props: EmailInputProps) {
+
+export default function EmailInput({ setValidEmail }: EmailInputProps) {
   const [email, setEmail] = useState("");
   const [touchedColor, setTouchedColor] = useState("border-[#70334c2E]");
   const [error, setError] = useState(false);
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    console.log(e.target.value);
+  const checkEmailValidity = (value: string) => {
+    return /\S+@\S+\.\S+/.test(value) && !value.endsWith(".");
   };
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    // Bubble validation up continuously so submit behaves dynamically
+    const isValid = checkEmailValidity(value);
+    setValidEmail(isValid);
+    if (isValid) {
+      setTouchedColor("border-[#3d7033FF]");
+      setError(false);
+    }
+  };
+
   function touchedColorFunc() {
-    const isValid = /\S+@\S+\.\S+/.test(email) && !email.endsWith(".");
-    // const isValid = email.includes(".") && email.includes("@");
+    const isValid = checkEmailValidity(email);
     if (isValid) {
       setTouchedColor("border-[#3d7033FF]");
       setError(false);
@@ -24,8 +37,9 @@ export default function EmailInput(props: EmailInputProps) {
       setTouchedColor("border-[#b94a48FF]");
       setError(true);
     }
-    props.setValidEmail(isValid);
+    setValidEmail(isValid);
   }
+
   return (
     <div>
       <label className="block text-[#70334cFF] text-xs font-bold tracking-[2px] uppercase mb-1 ml-0.75">
@@ -38,10 +52,9 @@ export default function EmailInput(props: EmailInputProps) {
         value={email}
         onChange={handleEmailChange}
         onBlur={touchedColorFunc}
-        className={`w-full px-4 py-3 border-[1.33px] ${touchedColor}  rounded-[5px] bg-[#fefcf7FF] text-sm text-black
+        className={`w-full px-4 py-3 border-[1.33px] ${touchedColor} rounded-[5px] bg-[#fefcf7FF] text-sm text-black
             focus:outline-none placeholder-[#3a303066] 
             placeholder:tracking-[1px] `}
-        // onInvalid={(e) => e.preventDefault()}
         required
       />
 
