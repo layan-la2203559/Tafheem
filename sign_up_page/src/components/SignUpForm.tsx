@@ -53,8 +53,9 @@ export default function SignUpForm() {
     console.log("Gender:", formData.get("gender"));
     console.log("Country:", formData.get("country"));
 
+    // userData has props displayName,email,password,confirmPassword,gender,country,bio
     const userData = Object.fromEntries(formData.entries());
-// 
+
     console.log("JSON Payload:", JSON.stringify(userData, null, 2));
   }
 
