@@ -1,8 +1,14 @@
 "use client";
 import { inter } from "@/app/layout";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 
-export default function PasswordInput() {
+interface PasswordInputProps {
+  setValidPassword: (isValid: boolean) => void;
+}
+
+export default function PasswordInput({
+  setValidPassword,
+}: PasswordInputProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -22,19 +28,27 @@ export default function PasswordInput() {
 
     switch (score) {
       case 1:
-        return { score, label: "WEAK", color: "bg-[#b94a48]" }; // Exact Red
+        return { score, label: "WEAK", color: "bg-[#b94a48]" };
       case 2:
-        return { score, label: "FAIR", color: "bg-[#d97706]" }; // Orange shade
+        return { score, label: "FAIR", color: "bg-[#d97706]" };
       case 3:
-        return { score, label: "GOOD", color: "bg-[#eab308]" }; // Yellow shade
+        return { score, label: "GOOD", color: "bg-[#eab308]" };
       case 4:
-        return { score, label: "STRONG", color: "bg-[#3d7033FF]" }; // Exact Green
+        return { score, label: "STRONG", color: "bg-[#3d7033FF]" };
       default:
         return { score: 1, label: "WEAK", color: "bg-[#b94a48]" };
     }
   };
 
   const strength = getPasswordStrength(password);
+
+  // Trigger validity update to parent whenever core conditions change
+  useEffect(() => {
+    const isStrongEnough = strength.score >= 3; // GOOD (3) or STRONG (4)
+    const matches = password.length > 0 && password === confirmPassword;
+
+    setValidPassword(isStrongEnough && matches);
+  }, [password, confirmPassword, strength.score, setValidPassword]);
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
@@ -90,12 +104,11 @@ export default function PasswordInput() {
           onChange={handlePasswordChange}
           onBlur={touchedColorFunc}
           className={`w-full pl-4 pr-12 py-3 border-[1.33px] ${touchedColor} rounded-[5px] bg-[#fefcf7FF] text-sm text-black
-            focus:outline-none placeholder-[#3a303066] uppercase
+            focus:outline-none placeholder-[#3a303066] 
             placeholder:normal-case placeholder:tracking-[1px]`}
           required
         />
 
-        {/* Toggle Visibility Button */}
         <button
           type="button"
           onClick={togglePasswordVisibility}
@@ -110,7 +123,6 @@ export default function PasswordInput() {
         </button>
       </div>
 
-      {/* --- 4-Segment Strength Rectangles (Sharp edges, 3px high) --- */}
       <div className="grid grid-cols-4 gap-1.5 mt-2 w-full">
         {[1, 2, 3, 4].map((index) => (
           <div
@@ -122,22 +134,12 @@ export default function PasswordInput() {
         ))}
       </div>
 
-      {/* Strength Text Indicator (Unbolded) */}
       <div
         className={`${inter.className} text-[#3a303088] text-[10px] font-normal tracking-[1.5px] uppercase mt-1`}
       >
         {strength.label && `${strength.label} PASSWORD`}
       </div>
 
-      {/* {touchedColor === "border-[#b94a48FF]" && (
-        <span
-          className={`${inter.className} text-[#b94a48] text-[10px] tracking-normal block mt-1 uppercase`}
-        >
-          ENTER A PASSWORD.
-        </span>
-      )} */}
-
-      {/* Confirm Password */}
       <label className="block text-[#70334cFF] text-xs font-bold tracking-[2px] uppercase mb-1 ml-0.75 mt-5">
         CONFIRM PASSWORD
       </label>
@@ -150,12 +152,11 @@ export default function PasswordInput() {
           value={confirmPassword}
           onChange={handleConfirmChange}
           className={`w-full pl-4 pr-12 py-3 border-[1.33px] ${touchedColor2} rounded-[5px] bg-[#fefcf7FF] text-sm text-black
-            focus:outline-none placeholder-[#3a303066] uppercase
+            focus:outline-none placeholder-[#3a303066]
             placeholder:normal-case placeholder:tracking-[1px]`}
           required
         />
 
-        {/* Toggle Visibility Button */}
         <button
           type="button"
           onClick={toggleConfirmVisibility}
@@ -170,7 +171,6 @@ export default function PasswordInput() {
         </button>
       </div>
 
-      {/* Status Messages */}
       {touchedColor2 === "border-[#b94a48FF]" && (
         <span
           className={`${inter.className} text-[#b94a48] text-[10px] tracking-[1.5px] block mt-1 uppercase`}

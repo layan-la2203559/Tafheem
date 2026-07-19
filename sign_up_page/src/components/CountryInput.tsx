@@ -2,20 +2,206 @@
 import { inter } from "@/app/layout";
 import { useState, useRef, useEffect, useMemo } from "react";
 
-// Standard ISO country list with common entries (expand as needed)
-const COUNTRIES = [
-  { code: "US", name: "United States", flag: "🇺🇸" },
-  { code: "GB", name: "United Kingdom", flag: "🇬🇧" },
-  { code: "CA", name: "Canada", flag: "🇨🇦" },
-  { code: "AU", name: "Australia", flag: "🇦🇺" },
-  { code: "DE", name: "Germany", flag: "🇩🇪" },
-  { code: "FR", name: "France", flag: "🇫🇷" },
-  { code: "JP", name: "Japan", flag: "🇯🇵" },
-  { code: "BR", name: "Brazil", flag: "🇧🇷" },
-  { code: "IN", name: "India", flag: "🇮🇳" },
-  { code: "MX", name: "Mexico", flag: "🇲🇽" },
-  { code: "ZA", name: "South Africa", flag: "🇿🇦" },
-];
+// Simplified list relying strictly on name strings
+const countries = [
+  { name: "Afghanistan" },
+  { name: "Albania" },
+  { name: "Algeria" },
+  { name: "Andorra" },
+  { name: "Angola" },
+  { name: "Argentina" },
+  { name: "Armenia" },
+  { name: "Australia" },
+  { name: "Austria" },
+  { name: "Azerbaijan" },
+  { name: "Bahamas" },
+  { name: "Bahrain" },
+  { name: "Bangladesh" },
+  { name: "Barbados" },
+  { name: "Belarus" },
+  { name: "Belgium" },
+  { name: "Belize" },
+  { name: "Benin" },
+  { name: "Bhutan" },
+  { name: "Bolivia" },
+  { name: "Bosnia and Herzegovina" },
+  { name: "Botswana" },
+  { name: "Brazil" },
+  { name: "Brunei" },
+  { name: "Bulgaria" },
+  { name: "Burkina Faso" },
+  { name: "Burundi" },
+  { name: "Cabo Verde" },
+  { name: "Cambodia" },
+  { name: "Cameroon" },
+  { name: "Canada" },
+  { name: "Central African Republic" },
+  { name: "Chad" },
+  { name: "Chile" },
+  { name: "China" },
+  { name: "Colombia" },
+  { name: "Comoros" },
+  { name: "Costa Rica" },
+  { name: "Croatia" },
+  { name: "Cuba" },
+  { name: "Cyprus" },
+  { name: "Czechia" },
+  { name: "Democratic Republic of the Congo" },
+  { name: "Denmark" },
+  { name: "Djibouti" },
+  { name: "Dominica" },
+  { name: "Dominican Republic" },
+  { name: "Ecuador" },
+  { name: "Egypt" },
+  { name: "El Salvador" },
+  { name: "Equatorial Guinea" },
+  { name: "Eritrea" },
+  { name: "Estonia" },
+  { name: "Eswatini" },
+  { name: "Ethiopia" },
+  { name: "Fiji" },
+  { name: "Finland" },
+  { name: "France" },
+  { name: "Gabon" },
+  { name: "Gambia" },
+  { name: "Georgia" },
+  { name: "Germany" },
+  { name: "Ghana" },
+  { name: "Greece" },
+  { name: "Grenada" },
+  { name: "Guatemala" },
+  { name: "Guinea" },
+  { name: "Guinea-Bissau" },
+  { name: "Guyana" },
+  { name: "Haiti" },
+  { name: "Honduras" },
+  { name: "Hungary" },
+  { name: "Iceland" },
+  { name: "India" },
+  { name: "Indonesia" },
+  { name: "Iran" },
+  { name: "Iraq" },
+  { name: "Ireland" },
+  { name: "Israel" },
+  { name: "Italy" },
+  { name: "Ivory Coast" },
+  { name: "Jamaica" },
+  { name: "Japan" },
+  { name: "Jordan" },
+  { name: "Kazakhstan" },
+  { name: "Kenya" },
+  { name: "Kiribati" },
+  { name: "Kosovo" },
+  { name: "Kuwait" },
+  { name: "Kyrgyzstan" },
+  { name: "Laos" },
+  { name: "Latvia" },
+  { name: "Lebanon" },
+  { name: "Lesotho" },
+  { name: "Liberia" },
+  { name: "Libya" },
+  { name: "Liechtenstein" },
+  { name: "Lithuania" },
+  { name: "Luxembourg" },
+  { name: "Madagascar" },
+  { name: "Malawi" },
+  { name: "Malaysia" },
+  { name: "Maldives" },
+  { name: "Mali" },
+  { name: "Malta" },
+  { name: "Marshall Islands" },
+  { name: "Mauritania" },
+  { name: "Mauritius" },
+  { name: "Mexico" },
+  { name: "Micronesia" },
+  { name: "Moldova" },
+  { name: "Monaco" },
+  { name: "Mongolia" },
+  { name: "Montenegro" },
+  { name: "Morocco" },
+  { name: "Mozambique" },
+  { name: "Myanmar" },
+  { name: "Namibia" },
+  { name: "Nauru" },
+  { name: "Nepal" },
+  { name: "Netherlands" },
+  { name: "New Zealand" },
+  { name: "Nicaragua" },
+  { name: "Niger" },
+  { name: "Nigeria" },
+  { name: "North Korea" },
+  { name: "North Macedonia" },
+  { name: "Norway" },
+  { name: "Oman" },
+  { name: "Pakistan" },
+  { name: "Palau" },
+  { name: "Panama" },
+  { name: "Papua New Guinea" },
+  { name: "Paraguay" },
+  { name: "Peru" },
+  { name: "Philippines" },
+  { name: "Poland" },
+  { name: "Portugal" },
+  { name: "Qatar" },
+  { name: "Republic of the Congo" },
+  { name: "Romania" },
+  { name: "Russia" },
+  { name: "Rwanda" },
+  { name: "Saint Kitts and Nevis" },
+  { name: "Saint Lucia" },
+  { name: "Saint Vincent and the Grenadines" },
+  { name: "Samoa" },
+  { name: "San Marino" },
+  { name: "Sao Tome and Principe" },
+  { name: "Saudi Arabia" },
+  { name: "Senegal" },
+  { name: "Serbia" },
+  { name: "Seychelles" },
+  { name: "Sierra Leone" },
+  { name: "Singapore" },
+  { name: "Slovakia" },
+  { name: "Slovenia" },
+  { name: "Solomon Islands" },
+  { name: "Somalia" },
+  { name: "South Africa" },
+  { name: "South Korea" },
+  { name: "South Sudan" },
+  { name: "Spain" },
+  { name: "Sri Lanka" },
+  { name: "Sudan" },
+  { name: "Suriname" },
+  { name: "Sweden" },
+  { name: "Switzerland" },
+  { name: "Syria" },
+  { name: "Taiwan" },
+  { name: "Tajikistan" },
+  { name: "Tanzania" },
+  { name: "Thailand" },
+  { name: "Timor-Leste" },
+  { name: "Togo" },
+  { name: "Tonga" },
+  { name: "Trinidad and Tobago" },
+  { name: "Tunisia" },
+  { name: "Turkey" },
+  { name: "Turkmenistan" },
+  { name: "Tuvalu" },
+  { name: "Uganda" },
+  { name: "Ukraine" },
+  { name: "United Arab Emirates" },
+  { name: "United Kingdom" },
+  { name: "United States of America" },
+  { name: "Uruguay" },
+  { name: "Uzbekistan" },
+  { name: "Vanuatu" },
+  { name: "Vatican City" },
+  { name: "Venezuela" },
+  { name: "Vietnam" },
+  { name: "Yemen" },
+  { name: "Zambia" },
+  { name: "Zimbabwe" },
+  { name: "Palestine" },
+].sort((a, b) => a.name.localeCompare(b.name));
+const countriesOptions = [{ name: "Prefer not to say" }, ...countries];
 
 export default function CountryInput() {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -28,7 +214,7 @@ export default function CountryInput() {
 
   // Filter countries dynamically based on typing search
   const filteredCountries = useMemo(() => {
-    return COUNTRIES.filter((country) =>
+    return countriesOptions.filter((country) =>
       country.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [searchQuery]);
@@ -62,20 +248,48 @@ export default function CountryInput() {
     }
   }, [isOpen]);
 
-  const handleSelect = (code: string) => {
-    setSelectedCountry(code);
+  const handleSelect = (name: string) => {
+    setSelectedCountry(name);
     setIsOpen(false);
     setSearchQuery("");
     setTouchedColor("border-[#3d7033FF]");
   };
 
-  const currentSelection = COUNTRIES.find((c) => c.code === selectedCountry);
+  const currentSelection = countriesOptions.find(
+    (c) => c.name === selectedCountry,
+  );
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <label className="block text-[#70334cFF] text-xs font-bold tracking-[2px] uppercase mb-1 ml-0.75">
-        Country
-      </label>
+      <div className="flex items-center gap-1.5 mb-1.5 ml-0.75">
+        <label className="text-[#70334cFF] text-xs font-bold tracking-[2px] uppercase select-none">
+          Country
+        </label>
+        {/* SVG for question mark */}
+
+        {/* <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          className="w-3.5 h-3.5 text-[#70334cFF]"
+          fill="none"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="2"
+          />
+
+          <path
+            d="M12 17V17.01M12 14C12 12.5 13 11.5 14 10.5C14.75 9.75 15 8.8 15 8C15 6.3 13.7 5 12 5C10.3 5 9 6.3 9 8"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg> */}
+      </div>
 
       {/* Hidden input for structural form compatibility */}
       <input type="hidden" name="country" value={selectedCountry} required />
@@ -94,14 +308,9 @@ export default function CountryInput() {
           }
         >
           {currentSelection ? (
-            <>
-              <span className="text-base line-height-none">
-                {currentSelection.flag}
-              </span>
-              <span>{currentSelection.name}</span>
-            </>
+            <span>{currentSelection.name}</span>
           ) : (
-            "Where do you live?"
+            "Select country"
           )}
         </span>
 
@@ -139,14 +348,13 @@ export default function CountryInput() {
           <ul className="overflow-y-auto py-1 flex-1">
             {filteredCountries.length > 0 ? (
               filteredCountries.map((country) => (
-                <li key={country.code}>
+                <li key={country.name}>
                   <button
                     type="button"
-                    onClick={() => handleSelect(country.code)}
+                    onClick={() => handleSelect(country.name)}
                     className={`w-full px-4 py-2 text-sm text-left flex items-center gap-2.5 transition-colors text-black hover:bg-[#70334c0D] active:bg-[#70334c1A]
-                      ${selectedCountry === country.code ? "bg-[#70334c08] font-medium text-[#70334cFF]" : ""}`}
+                      ${selectedCountry === country.name ? "bg-[#70334c08] font-medium text-[#70334cFF]" : ""}`}
                   >
-                    <span className="text-base">{country.flag}</span>
                     <span>{country.name}</span>
                   </button>
                 </li>
@@ -168,6 +376,28 @@ export default function CountryInput() {
           Select your country.
         </span>
       )}
+
+      {/* Audience Insight Info Box */}
+      <div className="mt-2.5 p-0.75 bg-[#fdfbf2] border border-[#cca227] rounded-[4px] flex items-center gap-2">
+        <svg
+          className="w-5 h-5 text-[#cca227] shrink-0"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8v4m0 4h.01"
+          />
+        </svg>
+        <span className="text-[11px] text-[#3a3030a1] leading-tight font-normal">
+          We use this to understand our audience better and support future
+          features.
+        </span>
+      </div>
     </div>
   );
 }

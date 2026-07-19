@@ -1,23 +1,38 @@
 "use client";
-import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { inter, playfair } from "@/app/layout";
 import NameInput from "./NameInput";
 import EmailInput from "./EmailInput";
 import PasswordInput from "./PasswordInput";
 import GenderInput from "./GenderInput";
 import CountryInput from "./CountryInput";
+import BioInput from "./BioInput";
 
 export default function SignUpForm() {
-  const [formValues, setformValues] = useState(null);
   const [validEmail, setValidEmail] = useState(false);
-  // const [password, setPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    setSubmitError(null); // Reset error state on new try
+
+    if (!validEmail) {
+      setSubmitError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!validPassword) {
+      setSubmitError("Password is too weak or does not match confirmation.");
+      return;
+    }
+
+    const formData = new FormData(e.currentTarget);
+    console.log("Form is valid! Submitting data...");
     console.log(formData.get("displayName"));
     console.log(formData.get("email"));
-    console.log(validEmail ? "valid" : "not valid");
+
+    // Continue with your actual registration dispatch or API request here
   }
 
   return (
@@ -33,17 +48,29 @@ export default function SignUpForm() {
         >
           Begin your journey of reflection
         </p>
-        <hr className="border-none h-[1px] bg-[linear-gradient(to_right,#EAE1E1_0%,#DBBC47_95%,#DBBC47_100%)] mt-4 w-full opacity-50" />
+        <hr className="border-none h-px bg-[linear-gradient(to_right,#EAE1E1_0%,#DBBC47_95%,#DBBC47_100%)] mt-4 w-full opacity-50" />
       </div>
+
       <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
         <NameInput />
         <EmailInput setValidEmail={setValidEmail} />
-        <PasswordInput />
+        <PasswordInput setValidPassword={setValidPassword} />
         <GenderInput />
         <CountryInput />
+        <BioInput />
+
+        {/* Dynamic Global Submit Error Feedback */}
+        {submitError && (
+          <div
+            className={`${inter.className} text-[#b94a48] text-xs font-semibold uppercase tracking-[0.5px] bg-[#b94a48]/10 p-3 rounded text-center`}
+          >
+            {submitError}
+          </div>
+        )}
+
         <button
           type="submit"
-          className={`w-full bg-[#70334c]/50 hover:bg-[#70334c] text-[#fefcf7] ${playfair.className} font-semibold py-3 px-4 rounded-[5px] transition-colors duration-200 text-lg shadow-sm mt-4`}
+          className={`w-full bg-[#70334c]/50 hover:bg-[#70334c] text-[#fefcf7] ${playfair.className} font-semibold py-3 px-4 rounded-[5px] transition-colors duration-200 text-lg shadow-sm mt-2`}
         >
           Create Account
         </button>

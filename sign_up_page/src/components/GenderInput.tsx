@@ -71,7 +71,7 @@ export default function GenderInput() {
               : "text-black tracking-normal"
           }
         >
-          {selectedLabel || "How do you identify?"}
+          {selectedLabel || "Select Gender"}
         </span>
 
         {/* Sleek custom chevron arrow that rotates on open */}
